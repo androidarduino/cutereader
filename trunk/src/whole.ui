@@ -1,0 +1,113 @@
+<ui version="4.0" >
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1019</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget" >
+   <layout class="QVBoxLayout" name="verticalLayout_2" >
+    <item>
+     <widget class="QSplitter" name="splitter" >
+      <property name="orientation" >
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <widget class="QDockWidget" name="dockWidget" >
+       <widget class="QWidget" name="dockWidgetContents" >
+        <layout class="QVBoxLayout" name="verticalLayout" >
+         <item>
+          <widget class="QTreeView" name="channelTree" />
+         </item>
+         <item>
+          <widget class="QProgressBar" name="pbTitle" >
+           <property name="value" >
+            <number>24</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+      <widget class="QWebView" name="articleView" >
+       <property name="url" >
+        <url>
+         <string>about:blank</string>
+        </url>
+       </property>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1019</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu_RSS" >
+    <property name="title" >
+     <string>&amp;RSS</string>
+    </property>
+    <addaction name="action_Add_Channel" />
+   </widget>
+   <widget class="QMenu" name="menu_Help" >
+    <property name="title" >
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="action_About" />
+   </widget>
+   <addaction name="menu_RSS" />
+   <addaction name="menu_Help" />
+  </widget>
+  <widget class="QStatusBar" name="statusbar" />
+  <widget class="QToolBar" name="toolBar" >
+   <property name="windowTitle" >
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea" >
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak" >
+    <bool>false</bool>
+   </attribute>
+   <addaction name="action_Add_Channel" />
+   <addaction name="action_About" />
+  </widget>
+  <action name="action_Add_Channel" >
+   <property name="icon" >
+    <iconset resource="reader.qrc" >
+     <normaloff>:/add</normaloff>:/add</iconset>
+   </property>
+   <property name="text" >
+    <string>&amp;Add Channel</string>
+   </property>
+  </action>
+  <action name="action_About" >
+   <property name="text" >
+    <string>&amp;About</string>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QWebView</class>
+   <extends>QWidget</extends>
+   <header>QtWebKit/QWebView</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="reader.qrc" />
+ </resources>
+ <connections/>
+</ui>
