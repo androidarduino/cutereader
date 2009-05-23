@@ -10,6 +10,7 @@ HttpGet::HttpGet(QObject *parent)
     : QObject(parent)
 {
     connect(&http, SIGNAL(done(bool)), this, SLOT(httpDone(bool)));
+    connect(&http, SIGNAL(requestFinished(int,bool)), this, SLOT(httpReqDone(int,bool)));
 }
 
 bool HttpGet::getFile(const QUrl &url,QBuffer *buf)
@@ -29,34 +30,59 @@ bool HttpGet::getFile(const QUrl &url,QBuffer *buf)
         return false;
     }
 
-#if 0
-    QString localFileName = QFileInfo(url.path()).fileName();
-    if (localFileName.isEmpty())
-        localFileName = "httpget.out";
-
-    file.setFileName(localFileName);
-    if (!file.open(QIODevice::WriteOnly)) {
-        cerr << "Error: Cannot open " << qPrintable(file.fileName())
-             << " for writing: " << qPrintable(file.errorString())
-             << endl;
-        return false;
+    QList<QPair<QByteArray, QByteArray> > querylist;
+    querylist=url.encodedQueryItems();
+    if(querylist.size()!=0) 
+    {
+        QByteArray querydata; 
+        querydata.append(querylist[0].first);
+        querydata.append('=');
+        querydata.append(querylist[0].second);
+        for (int i = 1; i < querylist.size(); ++i) {
+            querydata.append('&');
+            querydata.append(querylist[i].first);
+            querydata.append('=');
+            querydata.append(querylist[i].second);
+        }
+        QHttpRequestHeader header("POST", url.path());
+        header.setValue("Content-Type", "application/x-www-form-urlencoded");
+        header.setValue("Host", url.host());
+        http.setHost(url.host());
+        //http.request(header,url.encodedFragment(),buf);
+        http_request_id=http.request(header,querydata,buf);
+        http.close();
     }
-#endif
+    else
+    {
+        http.setHost(url.host(), url.port(80));
+        http.get(url.path(), buf);
+        http_request_id=0;
+        http.close();
+    }
 
-    http.setHost(url.host(), url.port(80));
-    http.get(url.path(), buf);
-    http.close();
     return true;
+}
+
+void HttpGet::httpReqDone(int id,bool error)
+{
+    if (error) {
+        cerr << "id:"<<id<<"Error: " << qPrintable(http.errorString()) << endl;
+    } 
+    if(id==http_request_id)
+    {
+        emit done();
+        cout<<"id is"<<id<<"\n";
+        cout<<"hello request done\n";
+    }
 }
 
 void HttpGet::httpDone(bool error)
 {
     if (error) {
         cerr << "Error: " << qPrintable(http.errorString()) << endl;
-    } else {
-        cerr << "File downloaded as " << qPrintable(file.fileName())
-             << endl;
+    } 
+    if(http_request_id==0){
+        cout<<"hello http::get() done\n";
+        emit done();
     }
-//    file.close();
-    emit done();
 }

@@ -22,8 +22,10 @@ signals:
 
 private slots:
     void httpDone(bool error);
+    void httpReqDone(int,bool);
 
 private:
+    int http_request_id;
     QHttp http;
     QFile file;
 };
