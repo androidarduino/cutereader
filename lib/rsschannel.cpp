@@ -71,19 +71,6 @@ bool RssChannel::fetchContent(int titleid)
 }
 */
 
-QMap<int, QString> RssChannel::getTitles()
-{
-	QStringList list = get_feedlist();	
-	titlemap.clear();
-	QStringListIterator it(list);
-	register int i = 0;
-	while (it.hasNext())
-	{
-          	titlemap[i] = it.next().toLocal8Bit().constData();
-	}
-	return titlemap;	
-}
-
 QString RssChannel::getContent(int titleid)
 {
     QDomNode n=doc->firstChildElement("rss").firstChildElement("channel");
@@ -128,7 +115,7 @@ QString  RssChannel::codecname()
     }
 }
 
-QStringList RssChannel::get_feedlist()
+QStringList RssChannel::getTitles()
 {
     QStringList str_list;
     QDomNode n=doc->firstChildElement("rss").firstChildElement("channel");

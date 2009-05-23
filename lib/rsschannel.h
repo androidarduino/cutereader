@@ -23,8 +23,8 @@ public slots:
     bool fetchTitles();
     bool fetchContent(int titleid);
 */
-    QMap<int, QString> getTitles();
     QString getContent(int titleid);
+    QStringList getTitles();
 signals:
 /*
     void titlesFetched(int count);
@@ -34,7 +34,6 @@ signals:
     void doneParse();
 
 protected slots:
-    QStringList get_feedlist();
     void download_finish();
     QString codecname();
     //void parse_finish();

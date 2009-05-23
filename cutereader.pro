@@ -1,5 +1,8 @@
+#Author: zhu,shiroki@www.cuteqt.com
+#License: GPLv2.0
+
 TEMPLATE = app
-TARGET = 
+TARGET = cutereader
 DEPENDPATH += .
 INCLUDEPATH += ./lib
 
@@ -11,9 +14,9 @@ OBJECTS_DIR=./tmpdata
 RCC_DIR=./tmpdata
 
 # src
-HEADERS += src/mainwin.h
+HEADERS += src/mainwin.h src/channelmodel.h
 FORMS += src/rssurl.ui src/whole.ui
-SOURCES += src/main.cpp src/mainwin.cpp
+SOURCES += src/main.cpp src/mainwin.cpp src/channelmodel.cpp
 RESOURCES += src/reader.qrc
 
 # lib
