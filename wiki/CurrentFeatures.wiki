@@ -1,0 +1,15 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+Implemented features
+
+
+= Details =
+
+  * add channel url to the treeview
+  * double-clicking url item will connect to it
+  * if connect to channel, titlelist will show all titles
+  * clicking title will show content in the webview
+  * about msgbox shows author information
+  * parsing url with query items are supported
