@@ -6,13 +6,13 @@ CuteReader TODOs
 
 = Details =
 
-* add error report when fail to connect to network or channel
-* add progress bar when connecting to channel
-* add alias for the url to show in the treeview
-* replace current titlelist with custom view
-* replace current treeview with custom view
-* save all downloaded data into database(url,alias and content rawdata)
-...
+  * add error report when fail to connect to network or channel
+  * add progress bar when connecting to channel
+  * add alias for the url to show in the treeview
+  * replace current titlelist with custom view
+  * replace current treeview with custom view
+  * save all downloaded data into database(url,alias and content rawdata)
+  * ...
 
 
 
