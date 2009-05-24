@@ -6,6 +6,7 @@ CuteReader TODOs
 
 = Details =
 
+  * add api to parse rawdata
   * add error report when fail to connect to network or channel
   * add progress bar when connecting to channel
   * add alias for the url to show in the treeview
