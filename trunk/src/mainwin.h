@@ -16,8 +16,9 @@ protected slots:
 	void about();
 	void parseFinished();
 	void downloadFinished();
-	void doChannelChanged(RssChannel*newchannel);
-	void addChannel(QString channel = "");
+	void connectToChannel(RssChannel*newchannel, bool silent = false);
+	void addChannel(QString channel = "", bool silent = false);
+	void laterInitialize();
 
 private:
 	void listTitles();
@@ -35,5 +36,5 @@ private slots:
 	void titleSelected(const QModelIndex& index);
 	void channelSelected(const QModelIndex& index);
 signals:
-	void channelChanged(RssChannel*);
+	//void channelChanged(RssChannel*);
 };
