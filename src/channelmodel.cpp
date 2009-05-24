@@ -29,7 +29,7 @@ void ChannelModel::readChannelData()
 {
 	//fake data for debug
 	addChannel("http://hi.baidu.com/myboymike/rss");
-	addChannel("http://www.cuteqt.com/?feed=rss");
+	addChannel("http://www.cuteqt.com/blog/?feed=rss");
 	addChannel("http://news.baidu.com/n?cmd=1&class=civilnews&tn=rss&sub=0");
 	/*
 	channellist << 
