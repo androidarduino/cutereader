@@ -115,6 +115,15 @@ QString  RssChannel::codecname()
     }
 }
 
+QString RssChannel::getTitle()
+{
+    QDomNode node=doc->firstChildElement("rss").firstChildElement("channel").firstChildElement("title");
+    QString title=node.toElement().text();
+    qDebug()<<"title is "<<title;
+    return title;
+}
+
+
 QStringList RssChannel::getTitles()
 {
     QStringList str_list;
