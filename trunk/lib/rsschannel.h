@@ -25,6 +25,7 @@ public slots:
 */
     QString getContent(int titleid);
     QStringList getTitles();
+    QString getTitle();
 signals:
 /*
     void titlesFetched(int count);
