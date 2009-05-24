@@ -89,11 +89,13 @@ int ChannelModel::columnCount(const QModelIndex&parent ) const
 
 QVariant ChannelModel::data(const QModelIndex& index, int role) const
 {
+	if( index.row() >= channellist.count())
+		return QVariant();
+
 	if( role == Qt::DisplayRole || role == Qt::EditRole)
 	{
-	
 		RssChannel* ch = channellist[index.row()];
-		//qDebug() << "Retrieve data:" << ch->url().toString();
+		//qDebug() << "Retrieve data:" << index.row() << ch->url().toString();
 		return QVariant(ch->url().toString());
 	}
 
@@ -111,12 +113,12 @@ RssChannel*ChannelModel::addChannel(const QString url)
 
 void ChannelModel::addChannel(RssChannel* ch)
 {
-	QModelIndex index = createIndex(channellist.count(), 0, ch);
+	beginInsertRows(QModelIndex(), channellist.count(), channellist.count());
+	//QModelIndex index = createIndex(channellist.count(), 0, ch);
+	qDebug() <<"ChannelModel:addChannel:" << ch->url().toString();
 	channellist.append(ch);
-	//qDebug() <<"ChannelModel:addChannel:" <<index<< ch->url().toString();
 	emit channelAdded(ch);
-	qDebug() <<"ChannelModel:emit signal channelAdded";
-	emit dataChanged(index, index); 
+	endInsertRows();
 }
 
 Qt::ItemFlags ChannelModel::flags(const QModelIndex& index) const
@@ -136,3 +138,4 @@ bool ChannelModel::contains(const QString url)
 	}
 	return false;
 }
+

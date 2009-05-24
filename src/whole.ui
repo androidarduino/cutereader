@@ -27,8 +27,13 @@
        <enum>Qt::Horizontal</enum>
       </property>
       <widget class="QDockWidget" name="dockWidget" >
+       <property name="font" >
+        <font>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
        <property name="windowTitle" >
-        <string>Add available RSS channels</string>
+        <string>Add Available RSS Channels</string>
        </property>
        <widget class="QWidget" name="dockWidgetContents" >
         <layout class="QVBoxLayout" name="verticalLayout" >
