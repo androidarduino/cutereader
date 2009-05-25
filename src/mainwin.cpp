@@ -38,6 +38,8 @@ void MainWin::laterInitialize()
 	//addChannel("http://feed.feedsky.com/CuteQt", true);
 	addChannel("http://hi.baidu.com/myboymike/rss", "MyBoyMike", true);
 	addChannel("http://feed.feedsky.com/CuteQt", "CuteQt", true);
+	addChannel("http://labs.trolltech.com/blogs/feed/","TrolltechLabs",true);
+
 }
 
 MainWin::~MainWin()
@@ -74,7 +76,7 @@ void MainWin::addChannel(QString url, QString alias, bool silent)
 	if(url.isEmpty())
 	{
 		//url+="http://news.baidu.com/n?cmd=1&class=civilnews&tn=rss&sub=0";
-		url+="http://www.cuteqt.com/?feed=rss";
+		url+="http://www.cuteqt.com/blog/?feed=rss";
 		//url = "http://feed.feedsky.com/CuteQt";
 		alias = "CuteQtFeedList";
 		//url+="http://hi.baidu.com/myboymike/rss";
