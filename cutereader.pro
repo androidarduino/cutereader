@@ -5,6 +5,7 @@ TEMPLATE = app
 TARGET = cutereader
 DEPENDPATH += .
 INCLUDEPATH += ./lib
+CONFIG+=debug
 
 QT += network xml webkit
 
@@ -15,7 +16,7 @@ RCC_DIR=./tmpdata
 
 # src
 HEADERS += src/mainwin.h src/channelmodel.h
-FORMS += src/rssurl.ui src/whole.ui
+FORMS += src/rssurl.ui src/whole.ui src/about.ui
 SOURCES += src/main.cpp src/mainwin.cpp src/channelmodel.cpp
 RESOURCES += src/reader.qrc
 

@@ -5,24 +5,24 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>412</width>
-    <height>130</height>
+    <width>392</width>
+    <height>119</height>
    </rect>
   </property>
   <property name="windowTitle" >
    <string>RSS Channel URL</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout" >
-   <item row="0" column="0" >
-    <layout class="QHBoxLayout" name="horizontalLayout" >
-     <item>
+  <layout class="QVBoxLayout" name="verticalLayout" >
+   <item>
+    <layout class="QGridLayout" name="gridLayout" >
+     <item row="0" column="0" >
       <widget class="QLabel" name="label" >
        <property name="text" >
         <string>RSS Link:</string>
        </property>
       </widget>
      </item>
-     <item>
+     <item row="0" column="1" >
       <widget class="QLineEdit" name="leRssLink" >
        <property name="palette" >
         <palette>
@@ -96,9 +96,60 @@
        </property>
       </widget>
      </item>
+     <item row="1" column="0" >
+      <widget class="QLabel" name="label_2" >
+       <property name="text" >
+        <string>RSS Alias:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1" >
+      <widget class="QLineEdit" name="leRssAlias" >
+       <property name="palette" >
+        <palette>
+         <active>
+          <colorrole role="Text" >
+           <brush brushstyle="SolidPattern" >
+            <color alpha="255" >
+             <red>85</red>
+             <green>0</green>
+             <blue>127</blue>
+            </color>
+           </brush>
+          </colorrole>
+         </active>
+         <inactive>
+          <colorrole role="Text" >
+           <brush brushstyle="SolidPattern" >
+            <color alpha="255" >
+             <red>85</red>
+             <green>0</green>
+             <blue>127</blue>
+            </color>
+           </brush>
+          </colorrole>
+         </inactive>
+         <disabled>
+          <colorrole role="Text" >
+           <brush brushstyle="SolidPattern" >
+            <color alpha="255" >
+             <red>165</red>
+             <green>164</green>
+             <blue>164</blue>
+            </color>
+           </brush>
+          </colorrole>
+         </disabled>
+        </palette>
+       </property>
+       <property name="text" >
+        <string>RSS</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
-   <item row="1" column="0" >
+   <item>
     <widget class="QDialogButtonBox" name="buttonBox" >
      <property name="orientation" >
       <enum>Qt::Horizontal</enum>

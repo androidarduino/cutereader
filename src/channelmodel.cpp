@@ -5,6 +5,29 @@
 #include <stdio.h>
 #include "rsschannel.h"
 
+
+RssChannelData::RssChannelData(const QString url, const QString a)
+:rssAlias(a)
+{
+	setUrl(url);
+}
+
+RssChannelData::~RssChannelData()
+{
+}
+
+const QString RssChannelData::alias()
+{
+	return rssAlias;
+}
+
+void RssChannelData::setAlias(const QString a)
+{
+	rssAlias = a;
+	//should emit signal after calling setAlias to update view
+	//emit dataChanged(index, index);
+}
+
 ChannelModel::ChannelModel(const QString dir)
 :dataDir(dir)
 {
@@ -28,10 +51,10 @@ bool ChannelModel::initialize()
 void ChannelModel::readChannelData()
 {
 	//fake data for debug
+	/*
 	addChannel("http://hi.baidu.com/myboymike/rss");
 	addChannel("http://www.cuteqt.com/blog/?feed=rss");
 	addChannel("http://news.baidu.com/n?cmd=1&class=civilnews&tn=rss&sub=0");
-	/*
 	channellist << 
 	channellist <<
 	*/
@@ -92,26 +115,34 @@ QVariant ChannelModel::data(const QModelIndex& index, int role) const
 	if( index.row() >= channellist.count())
 		return QVariant();
 
-	if( role == Qt::DisplayRole || role == Qt::EditRole)
+	RssChannelData* ch = channellist[index.row()];
+	switch(role)
 	{
-		RssChannel* ch = channellist[index.row()];
+	case Qt::DisplayRole://return alias instead of url
 		//qDebug() << "Retrieve data:" << index.row() << ch->url().toString();
+		if(! ch->alias().isEmpty())
+			return QVariant(ch->alias());
+		else
+			return QVariant(ch->url().toString());
+	break;
+	case Qt::EditRole:
 		return QVariant(ch->url().toString());
+	break;
 	}
 
 	return QVariant();
 }
 
 
-RssChannel*ChannelModel::addChannel(const QString url)
+RssChannelData*ChannelModel::addChannel(const QString url, const QString a)
 {
-	RssChannel* ch = new RssChannel;
+	RssChannelData* ch = new RssChannelData(url, a);
 	ch->setUrl(url);
 	addChannel(ch);
 	return ch;
 }
 
-void ChannelModel::addChannel(RssChannel* ch)
+void ChannelModel::addChannel(RssChannelData* ch)
 {
 	beginInsertRows(QModelIndex(), channellist.count(), channellist.count());
 	//QModelIndex index = createIndex(channellist.count(), 0, ch);
