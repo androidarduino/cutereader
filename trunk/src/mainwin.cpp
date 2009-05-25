@@ -9,6 +9,7 @@
 
 MainWin::MainWin(QWidget*p, Qt::WindowFlags f):QMainWindow(p,f)
 {
+	dAbout = NULL;
 	channelmodel = new ChannelModel(QDir::homePath() +"/.cutereader/");
 	//bug01:should connect before add channel, otherwise the signals are emitted too early!
 	connect(channelmodel, SIGNAL(channelAdded(const RssChannel*)), this, SLOT(channelAddedToModel(const RssChannel*)));
@@ -35,8 +36,8 @@ void MainWin::laterInitialize()
 {
 	//fake data for debug
 	//addChannel("http://feed.feedsky.com/CuteQt", true);
-	addChannel("http://hi.baidu.com/myboymike/rss", true);
-	addChannel("http://www.cuteqt.com/?feed=rss", true);
+	addChannel("http://hi.baidu.com/myboymike/rss", "MyBoyMike", true);
+	addChannel("http://feed.feedsky.com/CuteQt", "CuteQt", true);
 }
 
 MainWin::~MainWin()
@@ -60,20 +61,27 @@ void MainWin::listTitles()
 
 void MainWin::about()
 {
-	QMessageBox::information(this, "About CuteReader","<i>Author: shiroki, zhu @www.cuteqt.com</i>");
+	if( !dAbout )
+	{
+		dAbout = new QDialog(this);
+		uiAbout.setupUi(dAbout);
+	}
+	dAbout->exec();
 }
 
-void MainWin::addChannel(QString url, bool silent)
+void MainWin::addChannel(QString url, QString alias, bool silent)
 {
 	if(url.isEmpty())
 	{
 		//url+="http://news.baidu.com/n?cmd=1&class=civilnews&tn=rss&sub=0";
-		//url+="http://www.cuteqt.com/?feed=rss";
-		url+="http://feed.feedsky.com/CuteQt";
+		url+="http://www.cuteqt.com/?feed=rss";
+		//url = "http://feed.feedsky.com/CuteQt";
+		alias = "CuteQtFeedList";
 		//url+="http://hi.baidu.com/myboymike/rss";
 	}	
 
 	uiAddChannel.leRssLink->setText(url);
+	uiAddChannel.leRssAlias->setText(alias);
 	//if not silent mode, receive url from user
 	if( silent == false)//default false
 	{
@@ -89,10 +97,11 @@ void MainWin::addChannel(QString url, bool silent)
 			return;
 		}
 		url = newurl;
+		alias = uiAddChannel.leRssAlias->text();
 	}
 
-	qDebug()<< "MainWin::AddChannel" << url;
-	RssChannel* channel = channelmodel->addChannel(url);	
+	qDebug()<< "MainWin::AddChannel" << url << alias;
+	RssChannel* channel = channelmodel->addChannel(url, alias);	
 	currentchannel = channel;
 	if( silent == false)
 	{

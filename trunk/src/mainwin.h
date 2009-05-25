@@ -1,6 +1,10 @@
+#ifndef MAINWIN_H
+#define MAINWIN_H
+
 #include <QMainWindow>
 #include "ui_whole.h"
 #include "ui_rssurl.h"
+#include "ui_about.h"
 
 class RssChannel;
 class TreeModel;
@@ -17,15 +21,16 @@ protected slots:
 	void parseFinished();
 	void downloadFinished();
 	void connectToChannel(RssChannel*newchannel, bool silent = false);
-	void addChannel(QString channel = "", bool silent = false);
+	void addChannel(QString channel = "", QString a = "", bool silent = false);
 	void laterInitialize();
 
 private:
 	void listTitles();
 	void displayContent(int id);
 	Ui::MainWindow ui;
-	QDialog* dAddChannel;
 	Ui::AddChannelDialog uiAddChannel;
+	Ui::AboutDialog uiAbout;
+	QDialog* dAddChannel, *dAbout;
 	RssChannel* currentchannel;
 	ChannelModel* channelmodel;
 	QStringListModel* titlemodel;
@@ -38,3 +43,5 @@ private slots:
 signals:
 	//void channelChanged(RssChannel*);
 };
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef RSSCHANNEL_H
+#define RSSCHANNEL_H
+
 #include <QHttp>
 #include <QUrl>
 
@@ -47,3 +50,5 @@ private:
     HttpGet *getter;
     QUrl channelUrl;
 };
+#endif
+

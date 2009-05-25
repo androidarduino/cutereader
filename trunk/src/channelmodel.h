@@ -4,22 +4,34 @@
 #include <QDir>
 #include <QStringList>
 #include <QList>
+#include "rsschannel.h"
 
-class RssChannel;
+//we should store more than rsschannel, for example, we need the alias to show in the view!
+class RssChannelData: public RssChannel
+{
+public:
+	RssChannelData(const QString url, const QString a = "");
+	~RssChannelData();
+	const QString alias();
+	void setAlias(const QString newalias);
+private:
+	QString rssAlias;
+};
+
 class ChannelModel:public QAbstractItemModel
 {
 Q_OBJECT
 public:
 	ChannelModel(QString datadir);//dir to save channel data
 	~ChannelModel();
-	RssChannel* addChannel(const QString url);
+	RssChannelData* addChannel(const QString url, const QString alias = "");
 	bool initialize();
 	bool contains(const QString url);
 signals:
 	void channelAdded(const RssChannel*);
 	//void channelAdded(const RssChannel*);
 protected:
-	void addChannel(RssChannel*ch);
+	void addChannel(RssChannelData*ch);
 	void readChannelData();
 	QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const;
 	QModelIndex parent(const QModelIndex& index) const;
@@ -34,7 +46,7 @@ protected:
 */
 private:
 	QDir dataDir;
-	QList<RssChannel*> channellist;
+	QList<RssChannelData*> channellist;
 	bool createDataDir(const QDir& dir);
 };
 

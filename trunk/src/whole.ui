@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1019</width>
-    <height>600</height>
+    <width>1009</width>
+    <height>639</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -14,13 +14,6 @@
   </property>
   <widget class="QWidget" name="centralwidget" >
    <layout class="QHBoxLayout" name="horizontalLayout" >
-    <item>
-     <widget class="QSplitter" name="splitter_2" >
-      <property name="orientation" >
-       <enum>Qt::Horizontal</enum>
-      </property>
-     </widget>
-    </item>
     <item>
      <widget class="QSplitter" name="splitter_3" >
       <property name="orientation" >
@@ -165,14 +158,15 @@
      </widget>
     </item>
    </layout>
+   <zorder>splitter_3</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar" >
    <property name="geometry" >
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1019</width>
-     <height>27</height>
+     <width>1009</width>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu_RSS" >
