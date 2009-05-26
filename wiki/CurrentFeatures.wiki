@@ -14,3 +14,4 @@ Implemented features
   * about msgbox shows author information
   * parsing url with query items are supported
   * show alias instead of url in channel list
+  * show status message when there is any progress or error
