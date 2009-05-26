@@ -1,0 +1,10 @@
+#summary bugs found and fixed
+
+= Introduction =
+
+Memo for all bugs found
+
+= Details =
+  * bug in ChannelModel::index causes crash
+  * 
+  * 
