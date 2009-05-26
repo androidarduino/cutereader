@@ -4,6 +4,10 @@
 
 CuteReader TODOs
 
+Please have a look at the RSS specification:
+http://cyber.law.harvard.edu/rss/rss.html
+
+
 = Details =
 
   * add api to parse rawdata
