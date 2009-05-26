@@ -13,3 +13,4 @@ Implemented features
   * clicking title will show content in the webview
   * about msgbox shows author information
   * parsing url with query items are supported
+  * show alias instead of url in channel list
