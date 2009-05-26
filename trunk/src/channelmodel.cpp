@@ -85,6 +85,9 @@ bool ChannelModel::createDataDir(const QDir& dir)
 
 QModelIndex ChannelModel::index(int row, int column, const QModelIndex& parent ) const
 {
+	if(row >= channellist.count())
+		return;
+
 	QModelIndex id = createIndex(row,column, channellist[row]);
 	return id;
 }
