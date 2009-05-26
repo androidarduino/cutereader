@@ -17,6 +17,7 @@ http://cyber.law.harvard.edu/rss/rss.html
   * replace current titlelist with custom view
   * replace current treeview with custom view
   * save all downloaded data into database(url,alias and content rawdata)
+  * should follow rss spec to parse the content
   * ...
 
 
