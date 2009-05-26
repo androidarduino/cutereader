@@ -22,10 +22,6 @@ public:
 public slots:
     void setUrl(const QUrl& url);
     bool connectChannel(void);
-/*
-    bool fetchTitles();
-    bool fetchContent(int titleid);
-*/
     QString getContent(int titleid);
     QStringList getTitles();
     QString getTitle();
@@ -36,6 +32,7 @@ signals:
 */
     void doneDownload();
     void doneParse();
+    void networkError(const QString error);
 
 protected slots:
     void download_finish();

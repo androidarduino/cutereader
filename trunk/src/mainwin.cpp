@@ -51,7 +51,7 @@ void MainWin::displayContent(int id)
 {
 	QString content = currentchannel->getContent(id);
 	ui.articleView->setHtml(content);
-//	qDebug() <<"content get:" << content;
+	//qDebug() <<"content get:" << content;
 }
 
 void MainWin::listTitles()
@@ -104,7 +104,6 @@ void MainWin::addChannel(QString url, QString alias, bool silent)
 
 	qDebug()<< "MainWin::AddChannel" << url << alias;
 	RssChannel* channel = channelmodel->addChannel(url, alias);	
-	currentchannel = channel;
 	if( silent == false)
 	{
 		connectToChannel(channel, silent);
@@ -114,6 +113,7 @@ void MainWin::addChannel(QString url, QString alias, bool silent)
 
 void MainWin::connectToChannel(RssChannel*channel, bool silent)
 {
+	ui.statusbar->showMessage("Connecting to:" + channel->url().toString());
 	if( silent == false)
 	{
 		QMessageBox msgBox(this);
@@ -128,19 +128,20 @@ void MainWin::connectToChannel(RssChannel*channel, bool silent)
 		}
 	}
 	qDebug() << "connect to url" << channel->url();
+	currentchannel = channel;
 	channel->connectChannel();
 }
 
 void MainWin::parseFinished()
 {
-	qDebug() << "Parse finished....";
+	ui.statusbar->showMessage("Content parsing finished....");
 	listTitles();
 	displayContent(0);
 }
 
 void MainWin::downloadFinished()
 {
-	qDebug() << "Download finished....";
+	ui.statusbar->showMessage("Download finished....");
 }
 
 void MainWin::titleSelected(const QModelIndex& index)
@@ -154,8 +155,8 @@ void MainWin::channelSelected(const QModelIndex& index)
 {
 	qDebug() <<"Channel selected: connect to it!";
 	RssChannel* ch = static_cast<RssChannel*> (index.internalPointer());
-	currentchannel = ch;
-	ch->connectChannel();
+	//currentchannel = ch;
+	connectToChannel(ch, true);//silently
 }
 
 void MainWin::channelAddedToModel(const RssChannel*ch) const
@@ -163,4 +164,10 @@ void MainWin::channelAddedToModel(const RssChannel*ch) const
 	//qDebug() <<"Connect slots to channel signals!!";
 	connect(ch, SIGNAL(doneDownload()), this, SLOT(downloadFinished()));
 	connect(ch, SIGNAL(doneParse()), this, SLOT(parseFinished()));
+	connect(ch, SIGNAL(networkError(const QString)), this, SLOT(reportError(const QString)));
+}
+
+void MainWin::reportError(const QString error) const
+{
+	ui.statusbar->showMessage(error);
 }

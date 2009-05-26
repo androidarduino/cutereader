@@ -13,10 +13,10 @@ RssChannel::RssChannel(void)
     buf->open(QIODevice::WriteOnly|QIODevice::ReadOnly);
 
     getter=new HttpGet();
-
     doc =new QDomDocument();
 
     connect(getter,SIGNAL(done()),this,SLOT(download_finish()));
+    connect(getter,SIGNAL(httpError(const QString)),this,SIGNAL(networkError(const QString)));
 }
 
 
@@ -50,26 +50,6 @@ bool RssChannel::connectChannel()
 #endif
 	return true;
 }
-
-/*
-bool RssChannel::fetchTitles()
-{
-#if 1
-    if(!getter->getFile(url,buf))
-    {
-        return false;
-    }
-#endif
-	emit titlesFetched(4);
-	return true;
-}
-
-bool RssChannel::fetchContent(int titleid)
-{
-	emit contentFetched(titleid);
-	return true;
-}
-*/
 
 QString RssChannel::getContent(int titleid)
 {
@@ -158,7 +138,11 @@ void  RssChannel::download_finish(){
     emit doneDownload();
     QByteArray data;
     data=buf->data();
-    //qDebug()<<QString(data);
+	data.replace(QByteArray("&gt;"), QByteArray(">"));
+	data.replace(QByteArray("&lt;"), QByteArray("<"));
+	data.replace(QByteArray("&quot;"), QByteArray("\""));
+	//data.replace(QByteArray("&amp;"), QByteArray("&"));
+    qDebug()<<QString(data);
     QString errorStr;
     int errorLine;
     int errorCol;
