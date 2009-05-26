@@ -2,6 +2,7 @@
 #include <QDomDocument>
 #include <QByteArray>
 #include <QDebug>
+#include <QTextCodec>
 
 #include <QFile>
 
@@ -58,18 +59,33 @@ QString RssChannel::getContent(int titleid)
     QDomNode nn,nnn;
     QDomText node_title;
   
-#if 0 
-    for(int i=0;i<node_list.count();i++){
-        nn=node_list.at(i);
-        if(nn.nodeName()=="item"){
-            //nnn=nn.firstChildElement("title");
-            nnn=nn.firstChildElement("description");
-            //node_title=nnn.firstChildElement();
-            qDebug()<<nnn.toElement().text();
-            //item_num_of_allnodes[j]=i;
-            //j++;
+#if 1 
+    int i=item_num_of_allnodes[titleid];
+    qDebug()<<titleid<<" "<<i;    
+    nn=node_list.at(i);
+    QDomNodeList nlist;
+    nlist=nn.childNodes();
+    QByteArray bb;
+    QTextStream tt(&bb);
+    int rss2_format=0;
+    for(int j=0;j<nlist.count();j++){
+        nnn=nlist.at(j);
+        //qDebug()<<"node name is __"<<nnn.nodeName();
+        if(nnn.nodeName()=="content:encoded"){
+            rss2_format=1;
+            break;
         }
     }
+    if(1==rss2_format){
+        nnn.save(tt,0);
+        textc=QTextCodec::codecForName(codecname().toLatin1());
+        QString ss=textc->toUnicode(bb);
+        return ss;
+    }
+    nn=node_list.at(i);
+    nnn=nn.firstChildElement("description");
+    QString ss= nnn.toElement().text();
+    return ss;
 #else
     int i=item_num_of_allnodes[titleid];
     qDebug()<<titleid<<" "<<i;    
