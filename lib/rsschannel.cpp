@@ -154,11 +154,14 @@ void  RssChannel::download_finish(){
     emit doneDownload();
     QByteArray data;
     data=buf->data();
+#if 0
 	data.replace(QByteArray("&gt;"), QByteArray(">"));
 	data.replace(QByteArray("&lt;"), QByteArray("<"));
 	data.replace(QByteArray("&quot;"), QByteArray("\""));
 	//data.replace(QByteArray("&amp;"), QByteArray("&"));
     qDebug()<<QString(data);
+#endif
+    qDebug()<<"data size is"<<data.size();
     QString errorStr;
     int errorLine;
     int errorCol;
@@ -170,6 +173,7 @@ void  RssChannel::download_finish(){
         qDebug()<<QString(tr("parse finish ..."));
         emit doneParse();
    }
+  buf->close();
 #if 0
     qDebug()<<codecname();
     qDebug()<<get_feedlist();
