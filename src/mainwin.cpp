@@ -36,6 +36,7 @@ void MainWin::laterInitialize()
 {
 	//fake data for debug
 	//addChannel("http://feed.feedsky.com/CuteQt", true);
+	addChannel("http://www.cuteqt.com/blog/?feed=rss2", "CuteQt blog", true);
 	addChannel("http://hi.baidu.com/myboymike/rss", "MyBoyMike", true);
 	addChannel("http://feed.feedsky.com/CuteQt", "CuteQt", true);
 	addChannel("http://labs.trolltech.com/blogs/feed/","TrolltechLabs",true);
