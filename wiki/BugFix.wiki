@@ -5,6 +5,6 @@
 Memo for all bugs found
 
 = Details =
-  * bug in ChannelModel::index causes crash
+  * r20 bug in ChannelModel::index causes crash
   * 
   * 
