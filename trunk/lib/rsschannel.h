@@ -5,6 +5,7 @@
 #include <QUrl>
 
 #include "httpget.h"
+#include <QTextCodec>
 
 class QBuffer;
 class QDomDocument;
@@ -46,6 +47,7 @@ private:
     QDomDocument *doc;
     HttpGet *getter;
     QUrl channelUrl;
+    QTextCodec *textc;
 };
 #endif
 
