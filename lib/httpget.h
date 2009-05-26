@@ -3,6 +3,7 @@
 
 #include <QFile>
 #include <QHttp>
+#include <QString>
 
 class QBuffer;
 
@@ -19,6 +20,8 @@ public:
 
 signals:
     void done();
+    void httpError(const QString msg);
+
 
 private slots:
     void httpDone(bool error);

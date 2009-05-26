@@ -19,6 +19,7 @@ public:
 protected slots:
 	void about();
 	void parseFinished();
+	void reportError(const QString)const;
 	void downloadFinished();
 	void connectToChannel(RssChannel*newchannel, bool silent = false);
 	void addChannel(QString channel = "", QString a = "", bool silent = false);
