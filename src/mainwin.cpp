@@ -36,11 +36,10 @@ void MainWin::laterInitialize()
 {
 	//fake data for debug
 	//addChannel("http://feed.feedsky.com/CuteQt", true);
-	addChannel("http://www.cuteqt.com/blog/?feed=rss2", "CuteQt blog", true);
+	addChannel("http://www.cuteqt.com/blog/?feed=rss2", "CuteQtBlogRss2", true);
 	addChannel("http://hi.baidu.com/myboymike/rss", "MyBoyMike", true);
 	addChannel("http://feed.feedsky.com/CuteQt", "CuteQt", true);
 	addChannel("http://labs.trolltech.com/blogs/feed/","TrolltechLabs",true);
-
 }
 
 MainWin::~MainWin()
@@ -77,7 +76,7 @@ void MainWin::addChannel(QString url, QString alias, bool silent)
 	if(url.isEmpty())
 	{
 		//url+="http://news.baidu.com/n?cmd=1&class=civilnews&tn=rss&sub=0";
-		url+="http://www.cuteqt.com/blog/?feed=rss";
+		url+="http://www.cuteqt.com/blog/?feed=rss2";
 		//url = "http://feed.feedsky.com/CuteQt";
 		alias = "CuteQtFeedList";
 		//url+="http://hi.baidu.com/myboymike/rss";
@@ -96,7 +95,7 @@ void MainWin::addChannel(QString url, QString alias, bool silent)
 		//existing channel, show warning and reject change
 		if(channelmodel->contains(newurl))
 		{
-			QMessageBox::information(this, "Channel Exists!", "No need to add.");
+			QMessageBox::information(this, tr("Channel Exists!"), tr("No need to add."));
 			return;
 		}
 		url = newurl;
@@ -114,12 +113,12 @@ void MainWin::addChannel(QString url, QString alias, bool silent)
 
 void MainWin::connectToChannel(RssChannel*channel, bool silent)
 {
-	ui.statusbar->showMessage("Connecting to:" + channel->url().toString());
+	ui.statusbar->showMessage(tr("Connecting to:") + channel->url().toString());
 	if( silent == false)
 	{
 		QMessageBox msgBox(this);
-		msgBox.setText("Connect to channel?");
-	 	msgBox.setInformativeText("Do you wish to connect to this channel now?");
+		msgBox.setWindowTitle(tr("Connect to channel?"));
+	 	msgBox.setInformativeText(tr("Do you wish to connect to this channel now?"));
  		msgBox.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
  		msgBox.setDefaultButton(QMessageBox::Ok);
  		int ret = msgBox.exec();
@@ -135,14 +134,14 @@ void MainWin::connectToChannel(RssChannel*channel, bool silent)
 
 void MainWin::parseFinished()
 {
-	ui.statusbar->showMessage("Content parsing finished....");
+	ui.statusbar->showMessage(tr("Content parsing finished...."));
 	listTitles();
 	displayContent(0);
 }
 
 void MainWin::downloadFinished()
 {
-	ui.statusbar->showMessage("Download finished....");
+	ui.statusbar->showMessage(tr("Download finished...."));
 }
 
 void MainWin::titleSelected(const QModelIndex& index)
@@ -170,5 +169,5 @@ void MainWin::channelAddedToModel(const RssChannel*ch) const
 
 void MainWin::reportError(const QString error) const
 {
-	ui.statusbar->showMessage(error);
+	ui.statusbar->showMessage(tr("Network Error: ") + error);
 }

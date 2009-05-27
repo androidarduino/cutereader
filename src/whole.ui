@@ -26,7 +26,7 @@
         </font>
        </property>
        <property name="windowTitle" >
-        <string>Add Available RSS Channels</string>
+        <string>All Available RSS Channels</string>
        </property>
        <widget class="QWidget" name="dockWidgetContents" >
         <layout class="QVBoxLayout" name="verticalLayout" >
@@ -158,7 +158,6 @@
      </widget>
     </item>
    </layout>
-   <zorder>splitter_3</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar" >
    <property name="geometry" >
@@ -204,7 +203,7 @@
      <normaloff>:/add</normaloff>:/add</iconset>
    </property>
    <property name="text" >
-    <string>&amp;Add Channel</string>
+    <string>Add &amp;Channel</string>
    </property>
   </action>
   <action name="action_About" >
