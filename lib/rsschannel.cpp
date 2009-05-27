@@ -54,46 +54,36 @@ bool RssChannel::connectChannel()
 
 QString RssChannel::getContent(int titleid)
 {
-    QDomNode n=doc->firstChildElement("rss").firstChildElement("channel");
-    QDomNodeList node_list=n.childNodes();
-    QDomNode nn,nnn;
-    QDomText node_title;
+    QDomNode channel_node=doc->firstChildElement("rss").firstChildElement("channel");
+    QDomNodeList list_in_channel=channel_node.childNodes();
   
-#if 1 
     int i=item_num_of_allnodes[titleid];
-    qDebug()<<titleid<<" "<<i;    
-    nn=node_list.at(i);
-    QDomNodeList nlist;
-    nlist=nn.childNodes();
-    QByteArray bb;
-    QTextStream tt(&bb);
+    //qDebug()<<titleid<<" "<<i;    
+    QDomNode item_node=list_in_channel.at(i);
+
+    QDomNodeList list_in_item;
+    list_in_item=item_node.childNodes();
+
     int rss2_format=0;
-    for(int j=0;j<nlist.count();j++){
-        nnn=nlist.at(j);
-        //qDebug()<<"node name is __"<<nnn.nodeName();
-        if(nnn.nodeName()=="content:encoded"){
+    int description_no=0;
+    QDomNode content_node;
+    for(int j=0;j<list_in_item.count();j++){
+        content_node=list_in_item.at(j);
+        //qDebug()<<"node name is __"<<content_node.nodeName();
+        //qDebug()<<"node type is __"<<content_node.nodeType();
+        if(content_node.nodeName()=="content:encoded"){
             rss2_format=1;
             break;
         }
+        if(content_node.nodeName()=="description"){
+	    description_no=j;
+        }
     }
-    if(1==rss2_format){
-        nnn.save(tt,0);
-        textc=QTextCodec::codecForName(codecname().toLatin1());
-        QString ss=textc->toUnicode(bb);
-        return ss;
+    if(1!=rss2_format){
+	content_node=list_in_item.at(description_no);
     }
-    nn=node_list.at(i);
-    nnn=nn.firstChildElement("description");
-    QString ss= nnn.toElement().text();
+    QString ss= content_node.toElement().text();
     return ss;
-#else
-    int i=item_num_of_allnodes[titleid];
-    qDebug()<<titleid<<" "<<i;    
-    nn=node_list.at(i);
-    nnn=nn.firstChildElement("description");
-    return nnn.toElement().text();
-#endif
-
 }
 
 QString  RssChannel::codecname()
