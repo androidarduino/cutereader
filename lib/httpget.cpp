@@ -68,7 +68,7 @@ void HttpGet::httpReqDone(int id,bool error)
     if (error) {
         cerr << "id:"<<id<<"Error: " << qPrintable(http.errorString()) << endl;
 	emit httpError(http.errorString());
-    } 
+    }
     if(id==http_request_id)
     {
         emit done();
@@ -82,7 +82,7 @@ void HttpGet::httpDone(bool error)
     if (error) {
         cerr << "Error: " << qPrintable(http.errorString()) << endl;
 	emit httpError(http.errorString());
-    } 
+    }
     if(http_request_id==0){
         cout<<"hello http::get() done\n";
         emit done();

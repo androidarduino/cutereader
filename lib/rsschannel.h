@@ -19,7 +19,6 @@ public:
     int status();
     const QUrl& url();
 
-
 public slots:
     void setUrl(const QUrl& url);
     bool connectChannel(void);
