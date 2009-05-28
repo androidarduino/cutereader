@@ -94,7 +94,7 @@ QString  RssChannel::codecname()
     QRegExp rxlen("encoding=\'(.*)\'");
     int pos = rxlen.indexIn(str);
     if (pos > -1) {
-        return rxlen.cap(1); 
+        return rxlen.cap(1);
     }else
     {
         return QString();
@@ -117,8 +117,8 @@ QStringList RssChannel::getTitles()
     QDomNodeList node_list=n.childNodes();
     QDomNode nn,nnn;
     QDomText node_title;
-   
-    int j=0; 
+
+    int j=0;
     for(int i=0;i<node_list.count();i++){
         nn=node_list.at(i);
 #if 0
