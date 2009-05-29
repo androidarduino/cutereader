@@ -56,7 +56,6 @@ QString RssChannel::getContent(int titleid)
 {
     QDomNode channel_node=doc->firstChildElement("rss").firstChildElement("channel");
     QDomNodeList list_in_channel=channel_node.childNodes();
-  
     int i=item_num_of_allnodes[titleid];
     //qDebug()<<titleid<<" "<<i;    
     QDomNode item_node=list_in_channel.at(i);
