@@ -22,6 +22,6 @@ RESOURCES += src/reader.qrc
 
 # lib
 HEADERS += lib/httpget.h lib/rsschannel.h lib/rssdocument.h
-SOURCES += lib/httpget.cpp lib/rsschannel.cpp
+SOURCES += lib/httpget.cpp lib/rsschannel.cpp lib/rssdocument.cpp
 
 TRANSLATIONS+=i18n/cutereader-zh_CN.ts i18n/cutereader-zh_TW.ts
