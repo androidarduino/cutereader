@@ -1,0 +1,55 @@
+note: all RSS* classes have the two methods:
+
+    bool empty(); //whether this property is empty
+    QString toHtml(); //convert to Html
+
+RSSDocument
+    void setDocument(QString xmlSrc);
+    QList<RSSFeed*>
+        bool canSkip();
+        QString title
+        QUrl link
+        QString description
+        QString language
+        QString copyright
+        QString generator
+        QString docs
+        QString managingeditor
+        QString webmaster
+        QDateTime pubdate
+        QDateTime lastbuilddate
+        long ttl
+        RSSImage image
+            QUrl url
+            QImage image
+            QString title
+            QString link
+            QString description
+            int width
+            int height
+        RSSPICS rating
+        RSSTextInput textinput
+            QString title
+            QString description
+            QString name
+            QString link
+        QList<RSSCategory*> category
+            QString domain
+            QString content
+        RSSCloud cloud
+        QList<RSSItem*>
+            QString title
+            QUrl link
+            QString description
+            QString author
+            QList<RSSCategory*> categories
+                QString domain
+                QString content
+            QUrl Comments
+            RSSEnclosure enclosure
+                QUrl url
+                long length
+                QString type
+            QString guid
+            QString souce
+            QDateTime pubDate
