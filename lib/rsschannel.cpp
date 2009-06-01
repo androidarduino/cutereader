@@ -1,10 +1,17 @@
+
+/*
+	Author: zhu, vrcats, shiroki@www.cuteqt.com
+	License: GPLv2
+*/
+
 #include <QBuffer>
 #include <QDomDocument>
 #include <QByteArray>
 #include <QDebug>
 #include <QTextCodec>
-
 #include <QFile>
+#include <QRegExp>
+#include "wget.h"
 
 #include "rsschannel.h"
 
@@ -13,11 +20,11 @@ RssChannel::RssChannel(void)
     buf=new QBuffer(this);
     buf->open(QIODevice::WriteOnly|QIODevice::ReadOnly);
 
-    getter=new HttpGet();
+    getter=new WGet;
     doc =new QDomDocument();
 
-    connect(getter,SIGNAL(done()),this,SLOT(download_finish()));
-    connect(getter,SIGNAL(httpError(const QString)),this,SIGNAL(networkError(const QString)));
+    connect(getter,SIGNAL(requestFinished()),this,SLOT(download_finish()));
+    connect(getter,SIGNAL(networkError(const QString)),this,SIGNAL(networkError(const QString)));
 }
 
 
@@ -43,12 +50,14 @@ void RssChannel::setUrl(const QUrl&url)
 
 bool RssChannel::connectChannel()
 {
-#if 1
+#if 0
     if(!getter->getFile(channelUrl,buf))
     {
         return false;
     }
 #endif
+
+	buf = getter->requestUrl(channelUrl.toString());
 	return true;
 }
 
@@ -140,21 +149,29 @@ QStringList RssChannel::getTitles()
 
 void  RssChannel::download_finish(){
     qDebug()<<QString(tr("download finish ..."));
+    rawData = buf->readAll();
+    rawDataChanged();
+}
+
+//return the raw content for this channel
+QString RssChannel::getRawData()
+{
+	return rawData;	
+}
+
+void RssChannel::setRawData(const QByteArray data)
+{
+	rawData = data;
+}
+
+void RssChannel::rawDataChanged()
+{
     emit doneDownload();
-    QByteArray data;
-    data=buf->data();
-#if 0
-	data.replace(QByteArray("&gt;"), QByteArray(">"));
-	data.replace(QByteArray("&lt;"), QByteArray("<"));
-	data.replace(QByteArray("&quot;"), QByteArray("\""));
-	//data.replace(QByteArray("&amp;"), QByteArray("&"));
-    qDebug()<<QString(data);
-#endif
-    qDebug()<<"data size is"<<data.size();
+    qDebug()<<"data size is"<< rawData.size();
     QString errorStr;
     int errorLine;
     int errorCol;
-  if (!doc->setContent(data,true,&errorStr,&errorLine,&errorCol))
+  if (!doc->setContent(rawData,true,&errorStr,&errorLine,&errorCol))
    {
        qDebug()<<tr("error:%1 in line:%2  colummn:%3").arg(errorStr).arg(errorLine).arg(errorCol);
 	return;

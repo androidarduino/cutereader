@@ -1,3 +1,9 @@
+
+/*
+	Author: shiroki@www.cuteqt.com
+	License: GPLv2
+*/
+
 #ifndef MAINWIN_H
 #define MAINWIN_H
 

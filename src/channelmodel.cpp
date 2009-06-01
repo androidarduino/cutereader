@@ -1,3 +1,9 @@
+
+/*
+	Author: shiroki@www.cuteqt.com
+	License: GPLv2
+*/
+
 #include "channelmodel.h"
 #include <unistd.h>
 #include <stdlib.h>
@@ -57,8 +63,9 @@ void ChannelModel::readChannelData()
 	addChannel("http://news.baidu.com/n?cmd=1&class=civilnews&tn=rss&sub=0");
 	channellist << 
 	channellist <<
-	*/
 	return;
+	*/
+
 //////////////////////////////////////////////////////////////////
 	//read data from datadir
 	QString content;

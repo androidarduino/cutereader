@@ -1,4 +1,5 @@
-<!DOCTYPE TS><TS>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS><TS version="1.1" language="en_US">
 <defaultcodec></defaultcodec>
 <context>
     <name>AboutDialog</name>
@@ -140,6 +141,41 @@ p, li { white-space: pre-wrap; }
     <message>
         <source>parse finish ...</source>
         <translation>分析结束...</translation>
+    </message>
+</context>
+<context>
+    <name>WGet</name>
+    <message>
+        <source>No Error!</source>
+        <translation>未知错误!</translation>
+    </message>
+    <message>
+        <source>Connection refused!</source>
+        <translation>连接被拒绝!</translation>
+    </message>
+    <message>
+        <source>Host not found!</source>
+        <translation>主机地址未找到!</translation>
+    </message>
+    <message>
+        <source>Remote host closed!</source>
+        <translation>远端关闭了连接!</translation>
+    </message>
+    <message>
+        <source>Timeout!</source>
+        <translation>连接超时!</translation>
+    </message>
+    <message>
+        <source>Content access denied!</source>
+        <translation>内容访问权限被据!</translation>
+    </message>
+    <message>
+        <source>Protocol failure!</source>
+        <translation>协议错误!</translation>
+    </message>
+    <message>
+        <source>Content not found!</source>
+        <translation>内容未找到!</translation>
     </message>
 </context>
 </TS>
