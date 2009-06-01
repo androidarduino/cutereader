@@ -11,7 +11,7 @@ http://cyber.law.harvard.edu/rss/rss.html
 = Details =
 
   * add api to parse rawdata(*done*)
-  * add error report when fail to connect to network or channel(*done)
+  * add error report when fail to connect to network or channel(*done*)
   * add progress bar when connecting to channel
   * add alias for the url to show in the treeview (*done*)
   * replace current titlelist with custom view
