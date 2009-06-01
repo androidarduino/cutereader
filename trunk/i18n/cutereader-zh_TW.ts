@@ -137,4 +137,39 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
 </context>
+<context>
+    <name>WGet</name>
+    <message>
+        <source>No Error!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connection refused!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Host not found!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remote host closed!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Timeout!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content access denied!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Protocol failure!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content not found!</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
 </TS>

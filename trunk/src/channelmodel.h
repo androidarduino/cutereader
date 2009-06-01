@@ -1,3 +1,9 @@
+
+/*
+	Author: shiroki@www.cuteqt.com
+	License: GPLv2
+*/
+
 #ifndef CHANNEL_MODEL_H
 #define CHANNEL_MODEL_H
 #include <QAbstractItemModel>

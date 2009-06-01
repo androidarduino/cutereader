@@ -1,3 +1,9 @@
+
+/*
+	Author: shiroki@www.cuteqt.com
+	License: GPLv2
+*/
+
 #include "mainwin.h"
 #include "rsschannel.h"
 #include "channelmodel.h"

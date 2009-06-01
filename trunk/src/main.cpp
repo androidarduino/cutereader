@@ -1,9 +1,15 @@
+/*
+	Author: shiroki@www.cuteqt.com
+	License: GPLv2
+*/
+
 #include <QApplication>
 #include <QDebug>
 #include <QLocale>
 #include <QTranslator>
 
 #include "mainwin.h"
+#include "wget.h"
 
 int main(int argc, char* argv[])
 {
@@ -14,7 +20,6 @@ int main(int argc, char* argv[])
 	qttr.load("qt-"+QLocale::system().name());
 	app.installTranslator(&tr);
 	app.installTranslator(&qttr);
-	
 
 	MainWin mw;
 	mw.show();
