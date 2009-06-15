@@ -164,7 +164,7 @@ void ChannelModel::addChannel(RssChannelData* ch)
 
 Qt::ItemFlags ChannelModel::flags(const QModelIndex& index) const
 {
-	return Qt::ItemIsSelectable;
+	return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
 }
 
 bool ChannelModel::contains(const QString url)
