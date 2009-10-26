@@ -8,6 +8,8 @@
 #include "rsschannel.h"
 #include "channelmodel.h"
 #include <QDebug>
+#include <QFile>
+#include <QTextStream>
 #include <QTimer>
 #include <QDialog>
 #include <QMessageBox>
@@ -24,9 +26,11 @@ MainWin::MainWin(QWidget*p, Qt::WindowFlags f):QMainWindow(p,f)
 	titlemodel = new QStringListModel;
 	ui.setupUi(this);
 	ui.channelTree->setModel(channelmodel);
+	//ui.channelTree->setAlternatingRowColors(true);
 	connect(ui.channelTree, SIGNAL(activated(const QModelIndex&)), this, SLOT(channelSelected(const QModelIndex&)));
 
 	ui.titleList->setModel(titlemodel);
+	ui.titleList->setAlternatingRowColors(true);
 	connect(ui.titleList, SIGNAL(clicked(const QModelIndex&)), this, SLOT(titleSelected(const QModelIndex&)));
 
 	dAddChannel = new QDialog(this);
@@ -55,16 +59,39 @@ MainWin::~MainWin()
 
 void MainWin::displayContent(int id)
 {
-	QString content = currentchannel->getContent(id);
-	ui.articleView->setHtml(content);
-	//qDebug() <<"content get:" << content;
+	QString channelinfo, titleinfo, titlecontent, content;
+
+	qWarning("display content:%d", id);
+	channelinfo = "<p><a href=" + currentchannel->getChannelLink() + ">" + currentchannel->getChannelName() + "</a></p>";
+	titleinfo = "<p><a href=" + currentchannel->getTitleLink(id) + ">" + currentchannel->getTitleName(id) + "</a></p>";
+	titlecontent = currentchannel->getTitleContent(id);
+	content = channelinfo + titleinfo + titlecontent;
+
+	//content = "test";
+	ui.articleView->setHtml( content);
+	//ui.articleView->setHtml( "<html><body> " + content + "</body></html>");
+	debugFile(content, 100+id);
+	debugFile(currentchannel->getRawData(), 200+id);
+	qDebug() <<"content get:" << content;
+}
+
+
+void MainWin::debugFile(const QString& content, int id)
+{
+	QFile file;
+	QTextStream st(&file);
+	QString filename = QString::number(id);
+	
+	file.setFileName(filename);
+	file.open(QIODevice::WriteOnly| QIODevice::Append);
+	st << content;
+	file.close();
 }
 
 void MainWin::listTitles()
 {
 	QStringList titlelist = currentchannel->getTitles();
 	titlemodel->setStringList(titlelist);
-	qDebug() << "List titles!!";
 }
 
 void MainWin::about()

@@ -6,6 +6,7 @@ TARGET = cutereader
 DEPENDPATH += .
 INCLUDEPATH += ./lib
 CONFIG+=debug
+CONFIG+=console
 
 QT += network xml webkit
 

@@ -29,9 +29,13 @@ public:
 public slots:
     void setUrl(const QUrl& url);
     bool connectChannel(void);
-    QString getContent(int titleid);
     QStringList getTitles();
-    QString getTitle();
+    QString getChannelName();
+    QString getChannelLink();
+    QString getTitle(int);
+    QString getTitleName(int titleid);
+    QString getTitleLink(int titleid);
+    QString getTitleContent(int titleid);
     QString getRawData();
     void setRawData(const QByteArray rawdata);//give me the rawcontent, I will parse it!
 signals:
@@ -54,6 +58,8 @@ private:
     WGet *getter;
     QUrl channelUrl;
     QTextCodec *textc;
+    int cid;//current title id we'r working on
+    QString ctitlename, ctitlelink, ctitlecontent;
 };
 #endif
 
