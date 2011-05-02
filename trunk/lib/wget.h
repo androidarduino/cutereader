@@ -27,6 +27,7 @@ protected slots:
 	void finishReply();
 	void errorReply(QNetworkReply::NetworkError);
 	void replyFinished(QNetworkReply*);
+	const QString parseError(QNetworkReply::NetworkError error);
 };
 
 #endif
