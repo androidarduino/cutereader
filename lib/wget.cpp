@@ -36,35 +36,7 @@ void WGet::finishReply()
 
 	if( reply->error())
 	{
-		QString errstr = tr("No Error!");
-		switch(reply->error())
-		{
-			case QNetworkReply::ConnectionRefusedError:
-			errstr = tr("Connection refused!");
-			break;
-			case QNetworkReply::HostNotFoundError:
-			errstr = tr("Host not found!");
-			break;
-			case QNetworkReply::RemoteHostClosedError:
-			errstr = tr("Remote host closed!");
-			break;
-			case QNetworkReply::TimeoutError:
-			errstr = tr("Timeout!");
-			break;
-			case QNetworkReply::ContentAccessDenied:
-			errstr = tr("Content access denied!");
-			break;
-			case QNetworkReply::ProtocolFailure:
-			errstr = tr("Protocol failure!");
-			break;
-			case QNetworkReply::ContentNotFoundError:
-			errstr = tr("Content not found!");
-			break;
-			default:
-			break;
-		}
-		qDebug() << "error";
-		emit networkError(errstr);
+		emit networkError(parseError(reply->error()));
 		return;
 	}
 
@@ -82,5 +54,40 @@ void WGet::finishReply()
 
 void WGet::errorReply(QNetworkReply::NetworkError error)
 {
+	QString errstr = parseError(error);
 	qDebug() << "Error!" << error;
+	emit networkError(errstr);
+}
+
+const QString WGet::parseError(QNetworkReply::NetworkError error)
+{
+	QString errstr = tr("No Error!");
+        switch(error)
+	{
+		case QNetworkReply::ConnectionRefusedError:
+		errstr = tr("Connection refused!");
+		break;
+		case QNetworkReply::HostNotFoundError:
+		errstr = tr("Host not found!");
+		break;
+		case QNetworkReply::RemoteHostClosedError:
+		errstr = tr("Remote host closed!");
+		break;
+		case QNetworkReply::TimeoutError:
+		errstr = tr("Timeout!");
+		break;
+		case QNetworkReply::ContentAccessDenied:
+		errstr = tr("Content access denied!");
+		break;
+		case QNetworkReply::ProtocolFailure:
+		errstr = tr("Protocol failure!");
+		break;
+		case QNetworkReply::ContentNotFoundError:
+		errstr = tr("Content not found!");
+		break;
+		default:
+		break;
+	}
+	qDebug() << "error" << errstr;
+	return errstr;
 }

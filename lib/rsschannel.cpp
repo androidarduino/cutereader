@@ -18,11 +18,11 @@
 #define DEBUG_CONTENT
 RssChannel::RssChannel(void)
 {
-    buf=new QBuffer(this);
+    buf = new QBuffer(this);
     buf->open(QIODevice::WriteOnly|QIODevice::ReadOnly);
 
-    getter=new WGet;
-    doc =new QDomDocument();
+    getter = new WGet;
+    doc = new QDomDocument();
 
     connect(getter,SIGNAL(requestFinished()),this,SLOT(download_finish()));
     connect(getter,SIGNAL(networkError(const QString)),this,SIGNAL(networkError(const QString)));
@@ -39,7 +39,7 @@ int RssChannel::status()
 	return 0;
 }
 
-QString  RssChannel::codecname()
+QString RssChannel::codecname()
 {
     QDomProcessingInstruction qdominst=doc->firstChild().toProcessingInstruction();
     QString str=qdominst.data();
@@ -66,13 +66,6 @@ void RssChannel::setUrl(const QUrl&url)
 
 bool RssChannel::connectChannel()
 {
-#if 0
-    if(!getter->getFile(channelUrl,buf))
-    {
-        return false;
-    }
-#endif
-
 	buf = getter->requestUrl(channelUrl.toString());
 	return true;
 }
@@ -102,7 +95,7 @@ QString RssChannel::getTitle(int titleid)
     QDomNodeList list_in_channel=channel_node.childNodes();
     int i=item_num_of_allnodes[titleid];
 #ifdef DEBUG_CONTENT
-    qDebug()<<titleid<<" "<<i;    
+    qDebug() << "title:" << titleid << " " << i;    
 #endif
     QDomNode item_node=list_in_channel.at(i);
 
@@ -115,21 +108,21 @@ QString RssChannel::getTitle(int titleid)
     for(int j=0;j<list_in_item.count();j++){
         content_node=list_in_item.at(j);
 #ifdef DEBUG_CONTENT
-        qDebug()<<"node name is __"<<content_node.nodeName();
+        qDebug()<<"node name:" << content_node.nodeName();
 #endif
         if(content_node.nodeName()=="content:encoded"){
             rss2_format=1;
             break;
         }
-        if(content_node.nodeName()=="title"){
+        else if(content_node.nodeName()=="title"){
 	    node_no=j;
 		ctitlename = content_node.toElement().text();
         }
-        if(content_node.nodeName()=="link"){
+        else if(content_node.nodeName()=="link"){
 	    node_no=j;
 		ctitlelink = content_node.toElement().text();
         }
-        if(content_node.nodeName()=="description"){
+        else if(content_node.nodeName()=="description"){
 	    node_no=j;
 		ctitlecontent= content_node.toElement().text();
         }
