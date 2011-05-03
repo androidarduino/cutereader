@@ -1,0 +1,6 @@
+this project is used to test document parsing and content generating.
+testrssdocument accepts two parameters:
+1. test rss file
+2. item id
+
+i.e. ./testrssdocument test4.rss 2
