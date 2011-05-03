@@ -4,9 +4,6 @@
 	License: GPLv2
 */
 
-#include "mainwin.h"
-#include "rsschannel.h"
-#include "channelmodel.h"
 #include <QDebug>
 #include <QFile>
 #include <QTextStream>
@@ -14,12 +11,18 @@
 #include <QDialog>
 #include <QMessageBox>
 #include <QStringListModel>
+#include "mainwin.h"
+#include "rsschannel.h"
+#include "mainwin.h"
+#include "rsschannel.h"
+#include "channelmodel.h"
+#include "rssdocument.h"
 
 MainWin::MainWin(QWidget*p, Qt::WindowFlags f):QMainWindow(p,f)
 {
 	dAbout = NULL;
 	channelmodel = new ChannelModel(QDir::homePath() +"/.cutereader/");
-	//bug01:should connect before add channel, otherwise the signals are emitted too early!
+        //bug01:should connect before adding channel, otherwise the signals are emitted too early!
 	connect(channelmodel, SIGNAL(channelAdded(const RssChannel*)), this, SLOT(channelAddedToModel(const RssChannel*)));
 	channelmodel->initialize();
 
@@ -31,13 +34,13 @@ MainWin::MainWin(QWidget*p, Qt::WindowFlags f):QMainWindow(p,f)
 
 	ui.titleList->setModel(titlemodel);
 	ui.titleList->setAlternatingRowColors(true);
-	connect(ui.titleList, SIGNAL(clicked(const QModelIndex&)), this, SLOT(titleSelected(const QModelIndex&)));
+        connect(ui.titleList, SIGNAL(clicked(const QModelIndex&)), this, SLOT(titleSelected(const QModelIndex&)));
 
 	dAddChannel = new QDialog(this);
 	uiAddChannel.setupUi(dAddChannel);
 	
-	connect(ui.action_Add_Channel, SIGNAL(activated()), this, SLOT(addChannel()));
-	connect(ui.action_About, SIGNAL(activated()), this, SLOT(about()));
+        connect(ui.action_Add_Channel, SIGNAL(triggered()), this, SLOT(addChannel()));
+        connect(ui.action_About, SIGNAL(triggered()), this, SLOT(about()));
 
 	QTimer::singleShot(0, this, SLOT(laterInitialize()));
 }
@@ -45,11 +48,24 @@ MainWin::MainWin(QWidget*p, Qt::WindowFlags f):QMainWindow(p,f)
 void MainWin::laterInitialize()
 {
 	//fake data for debug
-	//addChannel("http://feed.feedsky.com/CuteQt", true);
-	addChannel("http://www.cuteqt.com/blog/?feed=rss2", "CuteQtBlogRss2", true);
+	addChannel("", "EmptyChannel", true);
+        addChannel("http://labs.trolltech.com/blogs/feed/","TrolltechLabs",true);
+        addChannel("http://www.cuteqt.com/blog/?feed=rss2", "CuteQtBlogRss2", true);
 	addChannel("http://hi.baidu.com/myboymike/rss", "MyBoyMike", true);
 	addChannel("http://feed.feedsky.com/CuteQt", "CuteQt", true);
-	addChannel("http://labs.trolltech.com/blogs/feed/","TrolltechLabs",true);
+        displayContent(welcomePage());
+	
+
+}
+const QString MainWin::welcomePage()
+{
+    QFile file(":welcome");
+    if( !file.open(QIODevice::ReadOnly))
+        return "";
+
+    QString page = file.readAll();
+    file.close();
+    return page;
 }
 
 MainWin::~MainWin()
@@ -57,22 +73,29 @@ MainWin::~MainWin()
 }
 
 
+void MainWin::displayContent(const QString& content)
+{
+    ui.articleView->setHtml( content);
+}
+
 void MainWin::displayContent(int id)
 {
-	QString channelinfo, titleinfo, titlecontent, content;
+    QString content;
+#ifdef RSS_DOCUMENT_SUPPORT
+    content = currentchannel->feedContent();
+#else
+        QString channelinfo, titleinfo, titlecontent;
 
 	qWarning("display content:%d", id);
 	channelinfo = "<p><a href=" + currentchannel->getChannelLink() + ">" + currentchannel->getChannelName() + "</a></p>";
 	titleinfo = "<p><a href=" + currentchannel->getTitleLink(id) + ">" + currentchannel->getTitleName(id) + "</a></p>";
 	titlecontent = currentchannel->getTitleContent(id);
 	content = channelinfo + titleinfo + titlecontent;
-
-	//content = "test";
-	ui.articleView->setHtml( content);
-	//ui.articleView->setHtml( "<html><body> " + content + "</body></html>");
-	debugFile(content, 100+id);
-	debugFile(currentchannel->getRawData(), 200+id);
-	qDebug() <<"content get:" << content;
+#endif
+        displayContent(content);
+        debugFile(content, 100+id);
+        debugFile(currentchannel->getRawData(), 200+id);
+        //qDebug() <<"content get:" << content;
 }
 
 
@@ -90,8 +113,10 @@ void MainWin::debugFile(const QString& content, int id)
 
 void MainWin::listTitles()
 {
-	QStringList titlelist = currentchannel->getTitles();
+#ifndef RSS_DOCUMENT_SUPPORT
+    QStringList titlelist = currentchannel->getTitles();
 	titlemodel->setStringList(titlelist);
+#endif
 }
 
 void MainWin::about()
@@ -108,11 +133,11 @@ void MainWin::addChannel(QString url, QString alias, bool silent)
 {
 	if(url.isEmpty())
 	{
-		//url+="http://news.baidu.com/n?cmd=1&class=civilnews&tn=rss&sub=0";
+		if( !silent)
+		{
 		url+="http://www.cuteqt.com/blog/?feed=rss2";
-		//url = "http://feed.feedsky.com/CuteQt";
 		alias = "CuteQtFeedList";
-		//url+="http://hi.baidu.com/myboymike/rss";
+		}
 	}	
 
 	uiAddChannel.leRssLink->setText(url);
@@ -128,7 +153,7 @@ void MainWin::addChannel(QString url, QString alias, bool silent)
 		//existing channel, show warning and reject change
 		if(channelmodel->contains(newurl))
 		{
-			QMessageBox::information(this, tr("Channel Exists!"), tr("No need to add."));
+                        QMessageBox::information(this, tr("Channel Exists Already!"), tr("No need to add."));
 			return;
 		}
 		url = newurl;
@@ -139,14 +164,14 @@ void MainWin::addChannel(QString url, QString alias, bool silent)
 	RssChannel* channel = channelmodel->addChannel(url, alias);	
 	if( silent == false)
 	{
-		connectToChannel(channel, silent);
+		//connectToChannel(channel, silent);
 	}
 	return;
 }
 
 void MainWin::connectToChannel(RssChannel*channel, bool silent)
 {
-	ui.statusbar->showMessage(tr("Connecting to:") + channel->url().toString());
+        showStatus(tr("Connecting to:") + channel->url().toString());
 	if( silent == false)
 	{
 		QMessageBox msgBox(this);
@@ -162,19 +187,19 @@ void MainWin::connectToChannel(RssChannel*channel, bool silent)
 	}
 	qDebug() << "connect to url" << channel->url();
 	currentchannel = channel;
-	channel->connectChannel();
+        channel->connectChannel();
 }
 
 void MainWin::parseFinished()
 {
-	ui.statusbar->showMessage(tr("Content parsing finished...."));
+        showStatus(tr("Content parsing finished...."));
 	listTitles();
 	displayContent(0);
 }
 
 void MainWin::downloadFinished()
 {
-	ui.statusbar->showMessage(tr("Download finished...."));
+        showStatus(tr("Download finished...."));
 }
 
 void MainWin::titleSelected(const QModelIndex& index)
@@ -202,5 +227,11 @@ void MainWin::channelAddedToModel(const RssChannel*ch) const
 
 void MainWin::reportError(const QString error) const
 {
-	ui.statusbar->showMessage(tr("Network Error: ") + error);
+        showStatus(tr("Network Error: ") + error);
 }
+
+void MainWin::showStatus(const QString& msg) const
+{
+    ui.statusbar->showMessage(msg);
+}
+

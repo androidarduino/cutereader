@@ -3,11 +3,11 @@
 ######################################################################
 
 TEMPLATE = app
-TARGET = 
+TARGET = testrssdocument
 DEPENDPATH += .
 INCLUDEPATH += .
-QT += xml network
+QT += xml network webkit
 
 # Input
-HEADERS += httpget.h rsschannel.h rssdocument.h
-SOURCES += httpget.cpp rsschannel.cpp rssdocument.cpp main.cpp
+HEADERS += wget.h rsschannel.h rssdocument.h
+SOURCES += wget.cpp rsschannel.cpp rssdocument.cpp main.cpp

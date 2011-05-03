@@ -14,9 +14,12 @@
 #include <QStringList>
 
 class QIODevice;
-class QDomDocument;
 class WGet;
-
+#ifndef RSS_DOCUMENT_SUPPORT
+class QDomDocument;
+#else
+class RSSDocument;
+#endif
 class RssChannel:public QObject
 {
     Q_OBJECT
@@ -25,10 +28,12 @@ public:
     ~RssChannel();
     int status();
     const QUrl& url();
+    const QString feedContent();
 
 public slots:
     void setUrl(const QUrl& url);
     bool connectChannel(void);
+#ifndef RSS_DOCUMENT_SUPPORT
     QStringList getTitles();
     QString getChannelName();
     QString getChannelLink();
@@ -36,6 +41,9 @@ public slots:
     QString getTitleName(int titleid);
     QString getTitleLink(int titleid);
     QString getTitleContent(int titleid);
+#else
+    RSSDocument* rssDocument(){return doc;};
+#endif
     QString getRawData();
     void setRawData(const QByteArray rawdata);//give me the rawcontent, I will parse it!
 signals:
@@ -45,16 +53,22 @@ signals:
 
 protected slots:
     void download_finish();
+#ifndef RSS_DOCUMENT_SUPPORT
     QString codecname();
+#endif
     void rawDataChanged();
     //void parse_finish();
 
 private:
     QMap<int,int> item_num_of_allnodes;
     QMap<int,QString> titlemap;
-    QIODevice *buf;
-    QByteArray rawData;
+#ifdef RSS_DOCUMENT_SUPPORT
+    RSSDocument* doc;
+#else
     QDomDocument *doc;
+#endif
+    QByteArray rawData;
+    QIODevice *buf;
     WGet *getter;
     QUrl channelUrl;
     QTextCodec *textc;

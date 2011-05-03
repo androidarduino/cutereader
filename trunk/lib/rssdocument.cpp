@@ -1,5 +1,18 @@
+#include <QFile>
+#include <QTextStream>
+
 #include "rssdocument.h"
 #define RFC822 "ddd, dd MMM yyyy hh:mm:ss"
+
+void LogFile(const QString& content)
+{
+	QFile file("rssdocument.log");
+	file.open(QIODevice::Append);
+	QTextStream ts(&file);
+	ts << content;
+	file.close();
+	return;
+}
 
 RSSItem::RSSItem(QDomElement e)
 {
@@ -43,16 +56,32 @@ RSSDocument::RSSDocument()
 
 }
 
-const QVariant RSSFeed::getProperty(RSS /*property*/) const
+const QVariant RSSFeed::getProperty(RSS property) const
 //get property listed in enum RSSChannelProperty
 {
+    switch(property)
 
+    {
+    case Copyright: return copyright;
+    case Link: return link;
+    case Docs: return docs;
+    case Generator: return generator;
+    case Language: return language;
+    case LastBuildDate: return lastBuildDate;
+    case ManagingEditor: return managingEditor;
+    case PubDate: return pubDate;
+    //case Rating: return rating;
+    //case TextInput: return textInput;
+    case WebMaster: return webMaster;
+            default: return "";
+    }
+    return QVariant();
 }
 
 QList<RSSItem*> RSSFeed::getItems() const
 //get all items in the document
 {
-    return QList<RSSItem*>();
+    return m_items;
 }
 
 /*QDateTime RSSFeed::RFC822toQDateTime(QString rfc822)
@@ -75,16 +104,22 @@ RSSItem& RSSFeed::getItem(QString itemId) const
     return *(new RSSItem());
 }
 */
-
-void RSSDocument::setDocument(QString xmlSrc)
+//bug: passing QString causes decoding problem
+bool RSSDocument::setDocument(const QByteArray xmlSrc)
 {
-    //qDebug()<<xmlSrc;
-    m_doc.setContent(xmlSrc);
+    bool result = m_doc.setContent(xmlSrc, true);
+    if( ! result) return result;
     //find <rss> root
     QDomElement rssRoot=m_doc.elementsByTagName("rss").at(0).toElement();//in atom this root doesn't exist
     QDomNodeList feeds=rssRoot.elementsByTagName("channel");//or <feed>
     for(uint i=0;i<feeds.length();i++)
         m_feeds<<new RSSFeed(feeds.at(i));
+//debug
+    QDomNode node=m_doc.firstChildElement("rss").firstChildElement("channel").childNodes().at(0).childNodes().at(0);
+    QString title=node.toElement().text();
+    qDebug()<<"BJBJ content: "<<title;
+
+    return result;
 }
 
 RSSFeed::RSSFeed(QDomNode e)
@@ -207,5 +242,4 @@ void RSSEnclosure::setDocument(QDomElement e)
     length=e.attribute("length").toLong();
     type=e.attribute("type");
 }
-
 

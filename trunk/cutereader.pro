@@ -5,9 +5,8 @@ TEMPLATE = app
 TARGET = cutereader
 DEPENDPATH += .
 INCLUDEPATH += ./lib
-CONFIG+=debug
-CONFIG+=console
-
+SUBDIRS+=./lib
+DEFINES+=RSS_DOCUMENT_SUPPORT
 QT += network xml webkit
 
 UI_DIR=./tmpdata

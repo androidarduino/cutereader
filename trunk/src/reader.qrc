@@ -1,8 +1,10 @@
 <RCC>
-  <qresource prefix="/" >
-    <file alias="add" >resource/add.png</file>
-    <file alias="remove" >resource/remove.png</file>
-    <file alias="pagemode" >resource/page.png</file>
-    <file alias="about" >resource/about.png</file>
-  </qresource>
+    <qresource prefix="/">
+        <file alias="add">resource/add.png</file>
+        <file alias="remove">resource/remove.png</file>
+        <file alias="pagemode">resource/page.png</file>
+        <file alias="about">resource/about.png</file>
+        <file alias="cuteqt">resource/cutefish.jpg</file>
+        <file alias="welcome">resource/welcome.html</file>
+    </qresource>
 </RCC>
