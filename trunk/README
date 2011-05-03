@@ -1,0 +1,2 @@
+add DEFINES+=RSS_DOCUMENT_SUPPORT to enable RSSDocument support
+RSSDocument test project is lib/test.pro
