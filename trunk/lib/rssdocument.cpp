@@ -20,12 +20,11 @@ RSSItem::RSSItem(QDomElement e)
     for(int i=0;i<properties.count();i++)
     {
         QDomElement c=properties.at(i).toElement();
-        QString tagName=c.tagName().toLower();
-        qWarning() << "itemtagname:" << tagName;
-        if( tagName == "encoded")//"content:encoded"
+        QString tagName=c.nodeName().toLower();//use nodeName instead of tagName
+        if( tagName == "content:encoded")//"content:encoded"
 	{
 		contentencoded = c.text();
-            qDebug() << "content:encoded:" << contentencoded;
+            //qDebug() << "content:encoded:" << contentencoded;
 	}
         else if(tagName=="title")
             qDebug()<<tagName+": "<<(title=c.text());
@@ -57,6 +56,10 @@ RSSItem::RSSItem(QDomElement e)
             qDebug()<<tagName+": "<<(pubDate=QDateTime::fromString(c.text().left(QString(RFC822).length()), RFC822));
         else if(tagName=="source")
             qDebug()<<tagName+": "<<(source=c.text());
+	else
+	{
+        qWarning() << "unknown itemtagname:" << tagName;
+	}
     }
 }
 
@@ -73,20 +76,25 @@ const QString RSSDocument::feedContentHint(void)
         return content;
 
     RSSFeed* fd;
-    QString copyright, docs, generator, language, lastbuilddate, link, managingeditor, pubdate, rating,textinput, webmaster;
+    QString title,description,copyright,docs,generator, language, lastbuilddate, link, managingeditor, pubdate, rating,textinput, webmaster;
+    QString titlecontent;
     foreach(fd, list)
     {
+        title = fd->getProperty(RSSFeed::Title).toString();
+        description = fd->getProperty(RSSFeed::Description).toString();
         copyright = fd->getProperty(RSSFeed::Copyright).toString();
         docs = fd->getProperty(RSSFeed::Docs).toString();
         generator = fd->getProperty(RSSFeed::Generator).toString();
         language = fd->getProperty(RSSFeed::Language).toString();
         //lastbuilddate = fd->getProperty(RSSFeed::LastBuildDate);
-        link = fd->getProperty(RSSFeed::Link).toString();
+        link = fd->getProperty(RSSFeed::Link).toUrl().toString();
         managingeditor = fd->getProperty(RSSFeed::ManagingEditor).toString();
         pubdate = fd->getProperty(RSSFeed::PubDate).toString();
         rating = fd->getProperty(RSSFeed::Rating).toString();
         textinput = fd->getProperty(RSSFeed::TextInput).toString();
         webmaster = fd->getProperty(RSSFeed::WebMaster).toString();
+        qDebug() << "BJBJ:Title:" << title;
+        qDebug() << "BJBJ:Description:" << description;
         qDebug() << "BJBJ:Copyright:" << copyright;
         qDebug() << "BJBJ:Docs:" << docs;
         qDebug() << "BJBJ:Generator:" << generator;
@@ -98,9 +106,8 @@ const QString RSSDocument::feedContentHint(void)
         qDebug() << "BJBJ:Rating:" << rating;
         qDebug() << "BJBJ:TextInput:" << textinput;
         qDebug() << "BJBJ:WebMaster:" << webmaster;
-        titleinfo += "RSS from <a href=\"" + link + "\">" + "</a><br>";
-        titleinfo+= "<a href=\"" + link + "\">" + link + "</a><br>";
-        titleinfo += "<p>-------------------------------------------</p>";
+		titleinfo += "RSS from <a href=\"" + link + "\">" + title + "</a><br><p>" + description + "</p>";
+		titleinfo += "<p>-------------------------------------------</p>";
 
         //feed items
         RSSItem* it;
@@ -132,20 +139,25 @@ const QString RSSDocument::feedContentHint(void)
             qDebug() << "BJBJ:source:" << it->source;
               */
             titleinfo += "<a href= \"" + it->link.toString() + "\">" + it->title+ "</a><br>";
-            content += "<p><h2><a href= \"" + it->link.toString() + "\">" + it->title+ "</a></h2></p>" + (it->contentencoded.isEmpty()? it->source: it->contentencoded) + "<br><br>";
+	    titlecontent = it->contentencoded.isEmpty()? it->source: it->contentencoded;
+	    if(titlecontent.isEmpty()) titlecontent = it->description;
+	    
+            content += "<p><h2><a href= \"" + it->link.toString() + "\">" + it->title+ "</a></h2></p>" + titlecontent + "<br><br>";
         }
 
     }
 
     content = titleinfo + content;
+    LogFile(content);
 	return content;
 }
 const QVariant RSSFeed::getProperty(RSS property) const
 //get property listed in enum RSSChannelProperty
 {
     switch(property)
-
     {
+    case Title: return title;
+    case Description: return description;
     case Copyright: return copyright;
     case Link: return link;
     case Docs: return docs;
@@ -208,20 +220,19 @@ RSSFeed::RSSFeed(QDomNode e)
     for(int i=0;i<children.count();i++)
     {
         QDomElement c=children.at(i).toElement();
-        QString tagName=c.tagName().toLower();
-        qWarning() << "feedtagname:" << tagName;
+        QString tagName=c.nodeName().toLower();
 
         if(tagName=="item")
         {
             m_items<<new RSSItem(c);
         }
-        else if( tagName == "content:encoded")
-            qWarning() << "content:encoded:" << c.text();
-
         else if(tagName=="title")
             qDebug()<<"TITLE: "<<(title=c.text());
         else if(tagName=="link")
-            qDebug()<<"LINK: "<<(link=c.text());
+	{
+            if(!c.text().isEmpty()) link=c.text();
+            qDebug()<<"LINK: "<< link;
+	}
         else if(tagName=="description")
             qDebug()<<"DESCRIPTION: "<<(description=c.text());
         else if(tagName=="language")
@@ -256,6 +267,10 @@ RSSFeed::RSSFeed(QDomNode e)
             qDebug()<<"CATEGORY: "<<c.text();
         else if(tagName=="cloud")//rsscloud
             qDebug()<<"CLOUD: "<<c.text();
+	else
+	{
+        qWarning() << "unknown feedtagname:" << tagName;
+	}
     }
 }
 

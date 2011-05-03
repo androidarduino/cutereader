@@ -119,10 +119,7 @@ void MainWin::debugFile(const QString& content, int id)
 
 void MainWin::listTitles()
 {
-#ifndef RSS_DOCUMENT_SUPPORT
-    QStringList titlelist = currentchannel->getTitles();
-	titlemodel->setStringList(titlelist);
-#endif
+	qWarning() << "listTitles: not implemented yet!";
 }
 
 void MainWin::about()

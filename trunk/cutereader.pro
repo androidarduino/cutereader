@@ -6,7 +6,7 @@ TARGET = cutereader
 DEPENDPATH += .
 INCLUDEPATH += ./lib
 SUBDIRS+=./lib
-DEFINES+=RSS_DOCUMENT_SUPPORT
+#DEFINES+=RSS_DOCUMENT_SUPPORT
 QT += network xml webkit
 
 UI_DIR=./tmpdata

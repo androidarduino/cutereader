@@ -16,16 +16,12 @@ QByteArray readFile(QString fileName = "")
 	content=file.readAll();
 	file.close();
 	}
-	qWarning() << content;
     return content;
 }
 
 int main(int argc, char** argv)
 {
     QApplication app(argc, argv);
-	QTextCodec* codec = QTextCodec::codecForName("UTF-8");
-	QTextCodec::setCodecForLocale(codec);
-	QTextCodec::setCodecForTr(codec);
     QWebView view;
     RSSDocument doc;
     QString fileName;
