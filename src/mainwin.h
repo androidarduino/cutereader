@@ -31,6 +31,7 @@ protected slots:
 	void addChannel(QString channel = "", QString a = "", bool silent = false);
 	void laterInitialize();
         const QString welcomePage();
+        void switchPageMode(bool mode);
 
 private:
 	void listTitles();

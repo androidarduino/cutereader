@@ -18,6 +18,506 @@
 	<language>en</language>
 	<sy:updatePeriod>hourly</sy:updatePeriod>
 	<sy:updateFrequency>1</sy:updateFrequency>
+			<item>
+		<title>转载：Qt Lighthouse &amp; Wayland</title>
+		<link>http://www.cuteqt.com/blog/?p=2125</link>
+		<comments>http://www.cuteqt.com/blog/?p=2125#comments</comments>
+		<pubDate>Fri, 01 Apr 2011 11:04:33 +0000</pubDate>
+		<dc:creator>shiroki</dc:creator>
+				<category><![CDATA[Linux技术]]></category>
+		<category><![CDATA[Qt技术]]></category>
+		<category><![CDATA[embedded]]></category>
+		<category><![CDATA[Lighthouse]]></category>
+
+		<guid isPermaLink="false">http://www.cuteqt.com/blog/?p=2125</guid>
+		<description><![CDATA[原文: Qt Lighthouse &#38; Wayland Posted on 2011/03/23 by csslayer
+Lighthouse是QtGui的一个Window System Agnostic移植（使得QtGui不了解它在什么窗口系统上运行，把处理逻辑交给了Lighthouse的插件）。
+Lighthouse 直到前段时间还没有的一个特性是它没有提供在服务器和客户端同时运行Qt时的多进程的解决方案，这对于嵌入式设备是很重要的。虽然现在Qt当中有 QWS（开发嵌入式Qt程序时使用的一个窗口系统，类似X  Windows的C/S结构，从而保证Qt程序的的可移植性）。但是QWS并不是一个正式的协议，从而使得QWS的服务器和客户端是紧密耦合的。
+因此如果有一个现成的协议可以利用的话，就会省下Qt开发者的不少功夫，然后他们最终发现Wayland（严格说来Wayland也是一个协议）正是他们所需要的。
+在过去的几个月里Qt的几名开发者都在研究Wayland，然后他创建了一个新的实验室项目Qt-Compositor，这个项目的目标是作为一个基础层让其他人完成他们自己的Wayland compositor。Qt-Compositor抽象了所有Wayland Compositor所需要的通信。
+其实我想很多人关心的重点其实就是Qt现在也有一个可以demo下的Wayland支持啦。虽然开发者们更多提到的是嵌入式系统，大概也就是想让Lighthouse替代以前的QWS，Wayland在Qt嵌入式的下一步也有着重要的作用。
+Lighthouse在去年10月底的时候决定和Qt的master合并，评论里面不少人其实在催xcb支持（X的c语言绑定），后面也回复有xcb现在也正在开发中。lighthouse看来将成为Qt的移植性/跨平台的下一步。
+
+
+来源：
+http://labs.qt.nokia.com/2011/03/18/multi-process-lighthouse/
+关于wayland的介绍，我就扔两篇tualatriX的blog了做参考了：
+http://imtx.me/archives/1573.html
+http://imtx.me/archives/1574.html
+]]></description>
+			<content:encoded><![CDATA[<p>原文:<a href="http://www.ikde.org/offtopic/qt-lighthouse-wayland/"> Qt Lighthouse &amp; Wayland</a> Posted on <a title="12:33 am" rel="bookmark" href="http://www.ikde.org/offtopic/qt-lighthouse-wayland/">2011/03/23</a> by <a title="View all posts by csslayer" href="http://www.ikde.org/author/csslayer/">csslayer</a></p>
+<p><a title="View all posts by csslayer" href="http://www.ikde.org/author/csslayer/"></a>Lighthouse是QtGui的一个Window System Agnostic移植（使得QtGui不了解它在什么窗口系统上运行，把处理逻辑交给了Lighthouse的插件）。</p>
+<p>Lighthouse 直到前段时间还没有的一个特性是它没有提供在服务器和客户端同时运行Qt时的多进程的解决方案，这对于嵌入式设备是很重要的。虽然现在Qt当中有 QWS（开发嵌入式Qt程序时使用的一个窗口系统，类似X  Windows的C/S结构，从而保证Qt程序的的可移植性）。但是QWS并不是一个正式的协议，从而使得QWS的服务器和客户端是紧密耦合的。</p>
+<p>因此如果有一个现成的协议可以利用的话，就会省下Qt开发者的不少功夫，然后他们最终发现Wayland（严格说来Wayland也是一个协议）正是他们所需要的。</p>
+<p>在过去的几个月里Qt的几名开发者都在研究Wayland，然后他创建了一个新的实验室项目<a href="http://qt.gitorious.org/qt-labs/qt-compositor">Qt-Compositor</a>，这个项目的目标是作为一个基础层让其他人完成他们自己的Wayland compositor。Qt-Compositor抽象了所有Wayland Compositor所需要的通信。</p>
+<p>其实我想很多人关心的重点其实就是Qt现在也有一个可以demo下的Wayland支持啦。虽然开发者们更多提到的是嵌入式系统，大概也就是想让Lighthouse替代以前的QWS，Wayland在Qt嵌入式的下一步也有着重要的作用。</p>
+<p>Lighthouse在<a href="http://labs.qt.nokia.com/2010/10/29/lighthouse-is-integrated/">去年10月底</a>的时候决定和Qt的master合并，评论里面不少人其实在催xcb支持（X的c语言绑定），后面也回复有xcb现在也正在开发中。lighthouse看来将成为Qt的移植性/跨平台的下一步。</p>
+<p><img id="ncode_imageresizer_container_1" title="Click to enlarge it" src="http://nhsdbw.blu.livefilestore.com/y1przqt8dbezoisnzEQ-iIM3aRHcYO8MSkvbiDFunB-M89cvHAjarxtMZX32TkHyELlE0WAHRNktBFMjV_3XkAtNr4WFKFfoeFj/Qt-Compositor.png?psid=1" alt="" width="576" height="668" /></p>
+<p><img id="ncode_imageresizer_container_2" title="Click to enlarge it" src="http://nhsdbw.blu.livefilestore.com/y1pS5_6sbD8QqAQ8UzI8KvYosS_yngnXd3bwlJGuwlR6haTz5NvI8EdpiqVlW3DE1rM4twj5Q8DMXx2lVYroVd7PVC3xCtd795I/waylandscreenshot.png?psid=1" alt="" width="563" height="441" /></p>
+<p>来源：</p>
+<p><a href="http://labs.qt.nokia.com/2011/03/18/multi-process-lighthouse/">http://labs.qt.nokia.com/2011/03/18/multi-process-lighthouse/</a></p>
+<p>关于wayland的介绍，我就扔两篇tualatriX的blog了做参考了：</p>
+<p><a href="http://imtx.me/archives/1573.html">http://imtx.me/archives/1573.html</a></p>
+<p><a href="http://imtx.me/archives/1574.html">http://imtx.me/archives/1574.html</a></p>
+]]></content:encoded>
+			<wfw:commentRss>http://www.cuteqt.com/blog/?feed=rss2&amp;p=2125</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Qt全局热键(windows篇)</title>
+		<link>http://www.cuteqt.com/blog/?p=2088</link>
+		<comments>http://www.cuteqt.com/blog/?p=2088#comments</comments>
+		<pubDate>Mon, 21 Mar 2011 12:36:10 +0000</pubDate>
+		<dc:creator>red</dc:creator>
+				<category><![CDATA[C++]]></category>
+		<category><![CDATA[Qt技术]]></category>
+		<category><![CDATA[Windows技术]]></category>
+		<category><![CDATA[global hotkey]]></category>
+		<category><![CDATA[hotkey]]></category>
+		<category><![CDATA[Qt]]></category>
+		<category><![CDATA[全局热键]]></category>
+		<category><![CDATA[热键]]></category>
+
+		<guid isPermaLink="false">http://www.cuteqt.com/blog/?p=2088</guid>
+		<description><![CDATA[Qt对于系统底层，一直没有很好的支持，例如串口并口通信，还有我们经常都会用到的全局热键，等等。既然Qt可能出于某种原因，不对这些进行支持，我们就只能自己写代码，调用系统相关的API了。
+注意，这个是Windows篇，就说明这些代码只支持windows系统。同时，也说明肯定还有其他平台的要写。不过要等O(∩_∩)O~
+在Qt要调用Windows的API其实很简单，只要在需要用到的头文件中添加#include &#60;windows.h&#62;即可。不过要注意，Qt仅支持win32的API，像MFC之类的是不支持的。
+想要在Qt里使用全局热键，最好的办法是重载QApplication里的winEventFilter函数。这个函数是用来响应Windows系统信息的。其函数原型为virtual bool winEventFilter(MSG *msg, long *result)。当msg指针中的message（MSG结构中的一个元素）为WM_HOTKEY类型时，就是用户激发了热键。整个过程和在VC的消息响应机制很类似，只不过换成了Qt而已。
+而如果我们想要添加自己的全局热键，只需要使用RegisterHotKey函数即可。其函数原型为：
+BOOL RegisterHotKey( HWND hWnd,     int id,     UINT fsModifiers,     UINT vk );
+HWND类型是Windows中的窗口句柄类型，在Qt中，QWidget及其子类均可使用winId()函数得到。
+第二个参数，是一个原子操作类型，用ATOM GlobalAddAtom(LPCTSTR lpString )函数得到。这也是一个Win32API，根据一个string参数可以得到一个唯一的值。使用完之后，必须使用GlobalDeleteAtom函数删除掉整个ATOM。其函数原型为ATOM GlobalDeleteAtom( ATOM nAtom )。
+后面两个参数，一个是修饰键，一个是普通按键。例如，假设我们想注册Ctrl+F4这个热键组合，则fsModifiers就是MOD_CONTROL，而vk就是VK_F4。
+如果注册成功,就返回true，否则,返回false。
+注意，使用完之后，要使用UnregisterHotKey函数注销，否则你可能再也无法注册这个热键了！除非重启。其函数原型为：BOOL UnregisterHotKey(HWND hWnd,      int id )。
+ok，热键注册就完成了。当按下热键后，我们就会在QApplication里的winEventFilter函数中收到一个msg。这个msg，前面也说过，我们需要知道它的一个元素message是不是WM_HOTKEY。如果是，就证明我们收到了Windows系统的热键信息。在MSG结构中，我们可能还需要理解的元素有两个，分别是wParam和lParam。wParam是注册热键时所用的id，也就是ATOM（原子)。而lParam就是我们的热键了。其实际上是一个32位的类型，前面16位代表普通按键，后16位代表的是修饰键。
+至此，Qt在Windows下使用全局热键就完成了。如果有兴趣的朋友，还可以自己尝试一下，修改或直接自己写一份代码。
+如有错误，敬请指正。
+我把我写的测试代码放到CuteQt论坛，有兴趣的朋友可以去下载。
+http://cuteqt.org/bbs/viewthread.php?tid=1641&#38;extra=page%3D1
+]]></description>
+			<content:encoded><![CDATA[<p>Qt对于系统底层，一直没有很好的支持，例如串口并口通信，还有我们经常都会用到的全局热键，等等。既然Qt可能出于某种原因，不对这些进行支持，我们就只能自己写代码，调用系统相关的API了。</p>
+<p>注意，这个是Windows篇，就说明<span style="color: #0000ff;">这些代码只支持windows系统</span>。同时，也说明肯定还有其他平台的要写。不过要等O(∩_∩)O~</p>
+<p>在Qt要调用Windows的API其实很简单，只要在需要用到的头文件中添加#include &lt;windows.h&gt;即可。不过要注意，Qt仅支持win32的API，像MFC之类的是不支持的。</p>
+<p>想要在Qt里使用全局热键，最好的办法是重载QApplication里的winEventFilter函数。这个函数是用来响应Windows系统信息的。其函数原型为virtual bool winEventFilter(MSG *msg, long *result)。当msg指针中的message（MSG结构中的一个元素）为WM_HOTKEY类型时，就是用户激发了热键。整个过程和在VC的消息响应机制很类似，只不过换成了Qt而已。</p>
+<p>而如果我们想要添加自己的全局热键，只需要使用RegisterHotKey函数即可。其函数原型为：</p>
+<p><span style="color: #000000;">BOOL </span><span style="color: #000000;">RegisterHotKey</span><span style="color: #000000;">( HWND <em>hWnd</em>,     int <em>id</em>,     UINT <em>fsModifiers</em>,     UINT <em>vk</em> );</span></p>
+<p><span style="color: #0000ff;">HWND类型是Windows中的窗口句柄类型，在Qt中，QWidget及其子类均可使用winId()函数得到。</span></p>
+<p>第二个参数，是一个原子操作类型，用<span style="color: #000000;">ATOM </span><span style="color: #000000;">GlobalAddAtom</span><span style="color: #000000;">(LPCTSTR <em>lpString</em> )函数得到。这也是一个Win32API，根据一个string参数可以得到一个唯一的值。使用完之后，必须使用</span>GlobalDeleteAtom函数删除掉整个ATOM。其函数原型为<span style="color: #000000;">ATOM </span><span style="color: #000000;">GlobalDeleteAtom</span><span style="color: #000000;">( ATOM <em>nAtom</em> )。</span></p>
+<p><span style="color: #000000;">后面两个参数，一个是修饰键，一个是普通按键。例如，假设我们想注册Ctrl+F4这个热键组合，则fsModifiers就是MOD_CONTROL，而vk就是VK_F4。</span></p>
+<p><span style="color: #000000;">如果注册成功,就返回true，否则,返回false。</span></p>
+<p><span style="color: #0000ff;">注意，使用完之后，要使用UnregisterHotKey函数注销，否则你可能再也无法注册这个热键了！除非重启。</span>其函数原型为：BOOL UnregisterHotKey(HWND <em>hWnd</em>,      int <em>id</em> )。</p>
+<p>ok，热键注册就完成了。当按下热键后，我们就会在QApplication里的winEventFilter函数中收到一个msg。这个msg，前面也说过，我们需要知道它的一个元素message是不是WM_HOTKEY。如果是，就证明我们收到了Windows系统的热键信息。在MSG结构中，我们可能还需要理解的元素有两个，分别是wParam和lParam。wParam是注册热键时所用的id，也就是ATOM（原子)。而lParam就是我们的热键了。其实际上是一个32位的类型，前面16位代表普通按键，后16位代表的是修饰键。</p>
+<p>至此，Qt在Windows下使用全局热键就完成了。如果有兴趣的朋友，还可以自己尝试一下，修改或直接自己写一份代码。</p>
+<p><span style="color: #0000ff;"><strong>如有错误，敬请指正。</strong></span></p>
+<p>我把我写的测试代码放到CuteQt论坛，有兴趣的朋友可以去下载。</p>
+<p><a title="下载地址" href="http://cuteqt.org/bbs/viewthread.php?tid=1641&amp;extra=page%3D1" target="_blank">http://cuteqt.org/bbs/viewthread.php?tid=1641&amp;extra=page%3D1</a></p>
+]]></content:encoded>
+			<wfw:commentRss>http://www.cuteqt.com/blog/?feed=rss2&amp;p=2088</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>QML Untitled（三）：Qtmediahub Project overview</title>
+		<link>http://www.cuteqt.com/blog/?p=2085</link>
+		<comments>http://www.cuteqt.com/blog/?p=2085#comments</comments>
+		<pubDate>Fri, 18 Mar 2011 15:32:24 +0000</pubDate>
+		<dc:creator>qpang</dc:creator>
+				<category><![CDATA[Qt技术]]></category>
+		<category><![CDATA[QML]]></category>
+		<category><![CDATA[Qt]]></category>
+		<category><![CDATA[qtmediahub]]></category>
+
+		<guid isPermaLink="false">http://www.cuteqt.com/blog/?p=2085</guid>
+		<description><![CDATA[屈指一算，QML从公布到正式推出来，也将近有一年多的时间了。
+虽然在很多方面，QML依然显得很新，但采用QML的项目已经越来越多了，qtmediahub就是其中之一。
+本身这个项目的介绍也非常地有趣：
+This is a reference implementation of XBMC intended to showcase the power and convenience of QML and as a demo for use at Qt related events more…
+It is intended for research and to convey best practices when using Qt/QML. It deliberately touches as much of QML as possible in order to serve as a full [...]]]></description>
+			<content:encoded><![CDATA[<p>屈指一算，QML从公布到正式推出来，也将近有一年多的时间了。<br />
+虽然在很多方面，QML依然显得很新，但采用QML的项目已经越来越多了，qtmediahub就是其中之一。<br />
+本身这个项目的介绍也非常地有趣：<br />
+This is a reference implementation of XBMC intended to showcase the power and convenience of QML and as a demo for use at Qt related events more…</p>
+<p>It is intended for research and to convey best practices when using Qt/QML. It deliberately touches as much of QML as possible in order to serve as a full fledged bleeding edge real world example.</p>
+<p>Use at your own risk, please read the included license file and associated headers for further information<br />
+简单来说，这是一个替代XBMC的替代实现，同时也想探索及展示关于使用QML的技巧，而通过这个项目源码，也的确展示这些内容。这是截止到现在为止，笔者看到的最为复杂和庞大的使用QML的相关项目。<br />
+在qtmediahub中，不仅使用前面介绍的qt-components项目，而且也编写了自定义的相关部件，事实上，如果把该项目的QML部件单独拿出来，也足以满足其他的QML项目。并且更为重要是，qtmediahub中有完整地将数据暴露给QML层使用的过程。这些过程，可不是单纯地像文档里简单的DEMO所示，而是具有完整的数据结构，严格按照MVC过程来的。<br />
+对于想使用QML做项目的同学来说，这个项目是做参考的最好选择之一，当然，里面丰富的部件也可以作为项目部件库的参考。</p>
+]]></content:encoded>
+			<wfw:commentRss>http://www.cuteqt.com/blog/?feed=rss2&amp;p=2085</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>QML Untitled（二）：Build and Install QtComponentsop</title>
+		<link>http://www.cuteqt.com/blog/?p=2083</link>
+		<comments>http://www.cuteqt.com/blog/?p=2083#comments</comments>
+		<pubDate>Sun, 13 Mar 2011 09:38:10 +0000</pubDate>
+		<dc:creator>qpang</dc:creator>
+				<category><![CDATA[Qt技术]]></category>
+		<category><![CDATA[desktop]]></category>
+		<category><![CDATA[QML]]></category>
+
+		<guid isPermaLink="false">http://www.cuteqt.com/blog/?p=2083</guid>
+		<description><![CDATA[首先，声明下，这个不是一个连续的教程，只是对QML一系列的心得，因为在使用QML中，总会发现很多知识点。
+虽然这些知识点并不连贯，但是也是宝贵的经验。
+这几天在qt的labs上发布了文章QML Components for Desktop? 证实了我对于QtComponents项目的理解。 该项目的确包含了对desktop的支持，当然就是Mx部分，但是该支持放在新开的分支中。
+不过，以我看来，要成熟到发布，至少是QtQuick2以后的事了，所以，现阶段还是用用官方的QtComponents就好了。
+首先，要到gitorious上获取源码，地址：http://qt.gitorious.org/qt-components，使用如下命令
+git clone git://gitorious.org/qt-components/qt-components.git
+下载完毕后，进入源码目录，在编译前，请确保qmake在环境变量中
+对QtComponets的安装，由于对应桌面版，因为需要两次编译安装，第一步是QtComponents插件，第二步是安装Mx相关以及QML。
+进入源码目录后，输入命令
+./configure
+如果qmake能识别出，就将会进行配置的过程，如果没有，请检查环境变量的配置，然后
+make
+就是进行编译，编译完毕后，最后输入
+sudo make install
+正常执行后，就可以在你的Qt的安装目录去检查，在与lib平级的目录，有一个import目录，这是QtQuick引入后才有的目录，在下面，可以看到imports/Qt/labs/components路径，这代表QtComponents插件已经安装成功，接下来就是安装Mx插件和Mx的qml。
+进入src下的mx源码目录，可以看到有mx.pro文件，很显然这跟编译Qt程序一致，只要进行如下步骤即可：
+qmake #生成makefile文件
+make #进行编译
+sudo make install
+至此，mx安装完成，同样也可以看到imports/Qt/labs/Mx的存在。
+好了，接下来就可以在你的QML文件中使用官方的组件了，这其实是个很easy的过程。
+]]></description>
+			<content:encoded><![CDATA[<p>首先，声明下，这个不是一个连续的教程，只是对QML一系列的心得，因为在使用QML中，总会发现很多知识点。<br />
+虽然这些知识点并不连贯，但是也是宝贵的经验。<br />
+这几天在qt的labs上发布了文章<a href="http://labs.qt.nokia.com/2011/03/10/qml-components-for-desktop/">QML Components for Desktop?</a> 证实了我对于QtComponents项目的理解。 该项目的确包含了对desktop的支持，当然就是Mx部分，但是该支持放在新开的分支中。<br />
+不过，以我看来，要成熟到发布，至少是QtQuick2以后的事了，所以，现阶段还是用用官方的QtComponents就好了。<br />
+首先，要到gitorious上获取源码，地址：http://qt.gitorious.org/qt-components，使用如下命令<br />
+git clone git://gitorious.org/qt-components/qt-components.git</p>
+<p>下载完毕后，进入源码目录，在编译前，请确保qmake在环境变量中<br />
+对QtComponets的安装，由于对应桌面版，因为需要两次编译安装，第一步是QtComponents插件，第二步是安装Mx相关以及QML。<br />
+进入源码目录后，输入命令<br />
+./configure<br />
+如果qmake能识别出，就将会进行配置的过程，如果没有，请检查环境变量的配置，然后<br />
+make<br />
+就是进行编译，编译完毕后，最后输入<br />
+sudo make install<br />
+正常执行后，就可以在你的Qt的安装目录去检查，在与lib平级的目录，有一个import目录，这是QtQuick引入后才有的目录，在下面，可以看到imports/Qt/labs/components路径，这代表QtComponents插件已经安装成功，接下来就是安装Mx插件和Mx的qml。<br />
+进入src下的mx源码目录，可以看到有mx.pro文件，很显然这跟编译Qt程序一致，只要进行如下步骤即可：<br />
+qmake #生成makefile文件<br />
+make #进行编译<br />
+sudo make install<br />
+至此，mx安装完成，同样也可以看到imports/Qt/labs/Mx的存在。<br />
+好了，接下来就可以在你的QML文件中使用官方的组件了，这其实是个很easy的过程。</p>
+]]></content:encoded>
+			<wfw:commentRss>http://www.cuteqt.com/blog/?feed=rss2&amp;p=2083</wfw:commentRss>
+		<slash:comments>4</slash:comments>
+		</item>
+		<item>
+		<title>QML Untitled（一）：QtQuick Open Components</title>
+		<link>http://www.cuteqt.com/blog/?p=2078</link>
+		<comments>http://www.cuteqt.com/blog/?p=2078#comments</comments>
+		<pubDate>Wed, 09 Mar 2011 02:40:20 +0000</pubDate>
+		<dc:creator>qpang</dc:creator>
+				<category><![CDATA[Qt技术]]></category>
+		<category><![CDATA[components]]></category>
+		<category><![CDATA[QML]]></category>
+
+		<guid isPermaLink="false">http://www.cuteqt.com/blog/?p=2078</guid>
+		<description><![CDATA[QML作为Qt新的界面编写方式，具有强大的灵活性，事实上这就是DirectUI的概念，不过由于推出的时间比较短，同时本身定义上的问题，许多原来Qt中的部件在QML中是没有的。
+对于有QML开发的需求的同学来说，每个部件都自己来写，是相当费时费力，所幸，目前已经有一定数量的QML开源组件（component)了。在些QML组件里，不仅提供了一系列基础的部件，甚至还有非常强力的QML自定义元素，使用这些，将缩短项目的开发周期，为开发者带来极大的方便。
+现在，笔者就心中的排名来对这些QML公开组件做简单介绍。
+Qt Components项目
+评价星级：五星
+地址：http://qt.gitorious.org/qt-components/
+评语：
+很明显，从名字就可以看出来，这是官方提供的QML组件，是探索Qt/QML组件和模型创造的项目。同时，如果熟悉meego开发的同学会发现，这套组件已经很早就被引入了meego的开发中。
+这套组件项目了一共提供mx，symbian和meego三个平台的QML组件，其中mx是对应桌面端的。由于过去一年里nokia的战略使然，meego的组件是最为丰富的，mx次之，symbian最少。不过由于最近nokia转向了wp7平台，该项目上也暂缓对meego的平台持续更新，重点转移到了mx和symbian平台上。
+对于使用QML进行项目开发的同学来说，这套组件是必不可少，甚至可以认为，这就是以后QML官方组件的原型。
+Colibri项目
+评价星级：五星
+地址：https://projects.forum.nokia.com/colibri
+评语：
+这也是一套相当优秀的QML组件，更加突出的，是一套使用QML纯正元素编写，里面涉及逻辑的地方都是使用JS完成的。
+这有什么好处？当然有，这意味着使用者无须进行编译就可以在自己的QML项目中以引入module的形式来使用。
+而且，这个项目的初始开发来源也很有意思，是来自于digia的，也就是最近收购了Qt的商业协议的那家公司。撇开这点不说，这套部件里有许多部件相当漂亮，特效也很赞，用到产品里让人有与众不同的感觉。
+qmlcanvas项目
+评价星级：四星
+地址：http://qt.gitorious.org/qt-labs/qmlcanvas
+评语：
+这是很有创意的一个项目，使用了QDeclarativeItem进行了自定义元素。
+要知道QML里是没有提供绘制元素，如果有人想做绘制地图类似的项目，是需要绕很大的圈子来做。不过，有了这套QML组件的帮助，将会轻松很多。
+qmlcanvas就是完成绘制功能的QML组件，有了它，绘制就成了简简单单的事情。
+qmlunit项目
+评价星级：三星
+地址：https://github.com/fgrehm/qmlunit
+评语：
+顾名思义，对QML进行单元测试的QML组件，虽然创意不错，但是很久没有更新，能否成为一个优秀的QML组件项目还是一个未知数。
+QML Arsenal项目
+评价星级：三星
+地址：http://gitorious.org/qmlarsenal
+评语：
+也是QML扩增的组件项目，亮点在于SVG的支持以及特殊图形元素，不过说实在，东西比较少，也就凑合用了。
+Native Quick Widgets
+评价星级：二星
+地址：http://qt-apps.org/content/show.php/Native+Quick+Widgets?content=137145
+评语：
+跟上面QML组件，不同在于是使用QDeclarative模块 扩展上去的，简单来说就是就是按官方QML元素的实现，来实现自己的新的元素。不过似乎没什么亮点，部件乏善可陈，也是凑合用的。
+这些就是目前笔者所知道的，并且值得推荐的QML的开源组件，如果您获悉有更好的，希望也能分享给大家。
+]]></description>
+			<content:encoded><![CDATA[<p>QML作为Qt新的界面编写方式，具有强大的灵活性，事实上这就是DirectUI的概念，不过由于推出的时间比较短，同时本身定义上的问题，许多原来Qt中的部件在QML中是没有的。<br />
+对于有QML开发的需求的同学来说，每个部件都自己来写，是相当费时费力，所幸，目前已经有一定数量的QML开源组件（component)了。在些QML组件里，不仅提供了一系列基础的部件，甚至还有非常强力的QML自定义元素，使用这些，将缩短项目的开发周期，为开发者带来极大的方便。<br />
+现在，笔者就心中的排名来对这些QML公开组件做简单介绍。</p>
+<p><span style="color: #0000ff">Qt Components</span>项目<br />
+评价星级：五星<br />
+地址：<a href="http://qt.gitorious.org/qt-components/">http://qt.gitorious.org/qt-components/</a><br />
+评语：<br />
+很明显，从名字就可以看出来，这是官方提供的QML组件，是探索Qt/QML组件和模型创造的项目。同时，如果熟悉meego开发的同学会发现，这套组件已经很早就被引入了meego的开发中。<br />
+这套组件项目了一共提供mx，symbian和meego三个平台的QML组件，其中mx是对应桌面端的。由于过去一年里nokia的战略使然，meego的组件是最为丰富的，mx次之，symbian最少。不过由于最近nokia转向了wp7平台，该项目上也暂缓对meego的平台持续更新，重点转移到了mx和symbian平台上。<br />
+对于使用QML进行项目开发的同学来说，这套组件是必不可少，甚至可以认为，这就是以后QML官方组件的原型。</p>
+<p><span style="color: #0000ff">Colibri</span>项目<br />
+评价星级：五星<br />
+地址：<a href="https://projects.forum.nokia.com/colibri">https://projects.forum.nokia.com/colibri</a><br />
+评语：<br />
+这也是一套相当优秀的QML组件，更加突出的，是一套使用QML纯正元素编写，里面涉及逻辑的地方都是使用JS完成的。<br />
+这有什么好处？当然有，这意味着使用者无须进行编译就可以在自己的QML项目中以引入module的形式来使用。<br />
+而且，这个项目的初始开发来源也很有意思，是来自于digia的，也就是最近收购了Qt的商业协议的那家公司。撇开这点不说，这套部件里有许多部件相当漂亮，特效也很赞，用到产品里让人有与众不同的感觉。</p>
+<p><span style="color: #0000ff">qmlcanvas</span>项目<br />
+评价星级：四星<br />
+地址：<a href="http://qt.gitorious.org/qt-labs/qmlcanvas">http://qt.gitorious.org/qt-labs/qmlcanvas</a><br />
+评语：<br />
+这是很有创意的一个项目，使用了QDeclarativeItem进行了自定义元素。<br />
+要知道QML里是没有提供绘制元素，如果有人想做绘制地图类似的项目，是需要绕很大的圈子来做。不过，有了这套QML组件的帮助，将会轻松很多。<br />
+qmlcanvas就是完成绘制功能的QML组件，有了它，绘制就成了简简单单的事情。</p>
+<p><span style="color: #0000ff">qmlunit</span>项目<br />
+评价星级：三星<br />
+地址：<a href="https://github.com/fgrehm/qmlunit">https://github.com/fgrehm/qmlunit</a><br />
+评语：<br />
+顾名思义，对QML进行单元测试的QML组件，虽然创意不错，但是很久没有更新，能否成为一个优秀的QML组件项目还是一个未知数。</p>
+<p><span style="color: #0000ff">QML Arsenal</span>项目<br />
+评价星级：三星<br />
+地址：<a href="http://gitorious.org/qmlarsenal">http://gitorious.org/qmlarsenal</a><br />
+评语：<br />
+也是QML扩增的组件项目，亮点在于SVG的支持以及特殊图形元素，不过说实在，东西比较少，也就凑合用了。</p>
+<p><span style="color: #0000ff">Native Quick Widgets</span><br />
+评价星级：二星<br />
+地址：<a href="http://qt-apps.org/content/show.php/Native+Quick+Widgets?content=137145">http://qt-apps.org/content/show.php/Native+Quick+Widgets?content=137145</a><br />
+评语：<br />
+跟上面QML组件，不同在于是使用QDeclarative模块 扩展上去的，简单来说就是就是按官方QML元素的实现，来实现自己的新的元素。不过似乎没什么亮点，部件乏善可陈，也是凑合用的。</p>
+<p>这些就是目前笔者所知道的，并且值得推荐的QML的开源组件，如果您获悉有更好的，希望也能分享给大家。</p>
+]]></content:encoded>
+			<wfw:commentRss>http://www.cuteqt.com/blog/?feed=rss2&amp;p=2078</wfw:commentRss>
+		<slash:comments>2</slash:comments>
+		</item>
+		<item>
+		<title>QtSpeech,让你的Qt会说话</title>
+		<link>http://www.cuteqt.com/blog/?p=2056</link>
+		<comments>http://www.cuteqt.com/blog/?p=2056#comments</comments>
+		<pubDate>Tue, 01 Mar 2011 05:43:04 +0000</pubDate>
+		<dc:creator>臭虫</dc:creator>
+				<category><![CDATA[Linux技术]]></category>
+		<category><![CDATA[Qt技术]]></category>
+		<category><![CDATA[Festival]]></category>
+		<category><![CDATA[Qt]]></category>
+		<category><![CDATA[Speech]]></category>
+		<category><![CDATA[TTS]]></category>
+
+		<guid isPermaLink="false">http://www.cuteqt.com/blog/?p=2056</guid>
+		<description><![CDATA[QtSpeech是一个Qt封装的跨平台TTS(文本变成语音输出)API，在不同平台下利用系统自带的TTS引擎。在Windows下使用SAPI, 在Mac下使用SpeechSynthesis，而在Linux下使用 Festival.
+QtSpeech的官方项目主页在:http://lynxline.com/projects/qtspeech
+源码git仓库地址则在:http://gitorious.org/qt-speech
+API的使用非常简单，如果你是同步调用，发音结束后返回，可以使用QtSpeech::say
+&#60;blockquote&#62;#include &#60;QtSpeech&#62;
+&#8230;
+QtSpeech voice;
+voice.say(&#8220;Hello World!&#8221;);
+如果是异步调用(发音不会阻塞程序运行)，则可以使用QtSpeech::tell
+&#60;blockquote&#62;#include &#60;QtSpeech&#62;
+&#8230;
+QtSpeech * voice = new QtSpeech(this);
+voice->tell(&#8220;Hello asynchronous world!&#8221;);
+
+如果使用QtSpeech::tell，还可以加入slot函数，在发音结束时回调该slot
+voice->tell(&#8220;Hello!&#8221;, this, SLOT(onSpeechFinished()));
+
+VoiceName可以用于设定发音类型的，比如英语或者法语，意大利语等
+QtSpeech::VoiceNames vs = QtSpeech::voices();
+//不过，目前从源代码来看只支持英语
+
+ 在ubuntu下编译 
+
+ $ #qtspeech 依赖的tts是festival，所以需要先安装
+ $ sudo apt-get install festival festival-dev
+ $ sudo apt-get install libasound2-dev
+ $ git clone git://gitorious.org/qt-speech/qt-speech.git
+ $ cd qt-speech/
+ $ qmake QtSpeech.pro
+ $ make
+ $ #test目录下有可以测试的例子，记得把音箱打开哦:)
+
+]]></description>
+			<content:encoded><![CDATA[<p>QtSpeech是一个Qt封装的跨平台TTS(文本变成语音输出)API，在不同平台下利用系统自带的TTS引擎。在Windows下使用SAPI, 在Mac下使用SpeechSynthesis，而在Linux下使用 Festival.</p>
+<p>QtSpeech的官方项目主页在:<a href="http://lynxline.com/projects/qtspeech">http://lynxline.com/projects/qtspeech</a><br />
+源码git仓库地址则在:http://gitorious.org/qt-speech</p>
+<p><strong>API的使用非常简单，如果你是同步调用，发音结束后返回，可以使用QtSpeech::say</strong></p>
+<blockquote><p>&lt;blockquote&gt;#include &lt;QtSpeech&gt;<br />
+&#8230;<br />
+QtSpeech voice;<br />
+voice.say(&#8220;Hello World!&#8221;);</p></blockquote>
+<p><strong>如果是异步调用(发音不会阻塞程序运行)，则可以使用QtSpeech::tell</strong></p>
+<blockquote><p>&lt;blockquote&gt;#include &lt;QtSpeech&gt;<br />
+&#8230;<br />
+QtSpeech * voice = new QtSpeech(this);<br />
+voice->tell(&#8220;Hello asynchronous world!&#8221;);
+</p></blockquote>
+<p><strong>如果使用QtSpeech::tell，还可以加入slot函数，在发音结束时回调该slot</strong></p>
+<blockquote><p>voice->tell(&#8220;Hello!&#8221;, this, SLOT(onSpeechFinished()));
+</p></blockquote>
+<p><strong>VoiceName可以用于设定发音类型的，比如英语或者法语，意大利语等</strong></p>
+<blockquote><p>QtSpeech::VoiceNames vs = QtSpeech::voices();<br />
+//不过，目前从源代码来看只支持英语
+</p></blockquote>
+<h4> 在ubuntu下编译 </h4>
+<p><code><br />
+ $ #qtspeech 依赖的tts是festival，所以需要先安装<br />
+ $ sudo apt-get install festival festival-dev<br />
+ $ sudo apt-get install libasound2-dev<br />
+ $ git clone git://gitorious.org/qt-speech/qt-speech.git<br />
+ $ cd qt-speech/<br />
+ $ qmake QtSpeech.pro<br />
+ $ make<br />
+ $ #test目录下有可以测试的例子，记得把音箱打开哦:)<br />
+</code></p>
+]]></content:encoded>
+			<wfw:commentRss>http://www.cuteqt.com/blog/?feed=rss2&amp;p=2056</wfw:commentRss>
+		<slash:comments>10</slash:comments>
+		</item>
+		<item>
+		<title>MeeGo的DBus调试工具</title>
+		<link>http://www.cuteqt.com/blog/?p=2017</link>
+		<comments>http://www.cuteqt.com/blog/?p=2017#comments</comments>
+		<pubDate>Tue, 22 Feb 2011 08:53:03 +0000</pubDate>
+		<dc:creator>臭虫</dc:creator>
+				<category><![CDATA[Qt技术]]></category>
+
+		<guid isPermaLink="false">http://www.cuteqt.com/blog/?p=2017</guid>
+		<description><![CDATA[DBus是ＭeeGo进程通信的核心。我们简要的看一下ＭeeGo系统的哪些地方都使用了DBus.
+1.从一个应用中启动另一个应用时。比如在联系人应用中想要拨打联系人的电话时，MeeGo系统中是通过DBus做进程通信的．
+2.Service Framework是基于DBus的。比如你看到一个多媒体文件，点击提交一个＂播放文件＂的请求，该请求搜索合适的应用来播放该文件．
+3.发布和订阅者系统。比如一个屏幕上的显示订阅了电池的电量消息，则在电量变化时通过DBus通知订阅者.
+4.Notification Manager也是基于DBus的。如有短信到达，Notification Manger会进行提示.
+5.系统的配置文件如果想在变动的时候通知ＭeeGo中感兴趣的应用，也需要用到DBus,比如主题的变化等．
+６. 蓝牙中间件bluez和电话管理系统ofono的进程通信系统也是基于DBus的。
+鉴于DBus的这种重要性，可以说＂没有DBus就没有MeeGo&#8221;。那么我们也有必要了解一下MeeGo中有哪些DBus工具可以使用，方便在开发过程中遇到问题时更快的定位和解决问题。
+准备DBUS_SESSION_BUS_ADDRESS
+两个基于DBus的应用要能进行通信，他们需要有同样的DBUS_SESSION_BUS_ADDRESS．ＭeeGo在启动它的uxlaunch时，会启动一个DBus的服务进程，可以从这个进程里得到DBUS_SESSION_BUS_ADDRESS的值，而且通过uxlaunch加载的应用会继承该环境变量，如果是自己从命令行启动的话，那么需要在运行你的应用前设置好该环境变量，才能正常的和MeeGo系统里的已有应用进行通信。可以通过如下方法设置该值．
+export `tr &#8216;\0&#8242; &#8216;\n&#8217; &#60; /proc/$(pidof duihome)/environ&#124;grep DBUS_SESSION_BUS_ADDRESS`
+工具１：dbus-send/dbus-monitor
+这个是随dbus软件包一起发布的工具，封装比较底层，这里不做介绍了。可以在控制台命令行里输入man dbus-send查询详细用法。
+工具2：qdbus
+该工具是基于Qt的一个命令行工具。用法如下
+qdbus [--system] [--literal] [servicename] [path] [method] [args]
+servicename       the service to connect to (e.g., org.freedesktop.DBus)
+path              the path to the object (e.g., /)
+method    [...]]]></description>
+			<content:encoded><![CDATA[<p>DBus是ＭeeGo进程通信的核心。我们简要的看一下ＭeeGo系统的哪些地方都使用了DBus.</p>
+<p><span style="color: #800000;">1.从一个应用中启动另一个应用时。比如在联系人应用中想要拨打联系人的电话时，MeeGo系统中是通过DBus做进程通信的．</span></p>
+<p><span style="color: #800000;">2.Service Framework是基于DBus的。比如你看到一个多媒体文件，点击提交一个＂播放文件＂的请求，该请求搜索合适的应用来播放该文件．</span></p>
+<p><span style="color: #800000;">3.发布和订阅者系统。比如一个屏幕上的显示订阅了电池的电量消息，则在电量变化时通过DBus通知订阅者.</span></p>
+<p><span style="color: #800000;">4.Notification Manager也是基于DBus的。如有短信到达，Notification Manger会进行提示.</span></p>
+<p><span style="color: #800000;">5.系统的配置文件如果想在变动的时候通知ＭeeGo中感兴趣的应用，也需要用到DBus,比如主题的变化等．</span></p>
+<p><span style="color: #800000;">６. 蓝牙中间件bluez和电话管理系统ofono的进程通信系统也是基于DBus的。</span></p>
+<p>鉴于DBus的这种重要性，可以说＂没有DBus就没有MeeGo&#8221;。那么我们也有必要了解一下MeeGo中有哪些DBus工具可以使用，方便在开发过程中遇到问题时更快的定位和解决问题。</p>
+<h3>准备DBUS_SESSION_BUS_ADDRESS</h3>
+<p>两个基于DBus的应用要能进行通信，他们需要有同样的DBUS_SESSION_BUS_ADDRESS．ＭeeGo在启动它的uxlaunch时，会启动一个DBus的服务进程，可以从这个进程里得到DBUS_SESSION_BUS_ADDRESS的值，而且通过uxlaunch加载的应用会继承该环境变量，如果是自己从命令行启动的话，那么需要在运行你的应用前设置好该环境变量，才能正常的和MeeGo系统里的已有应用进行通信。可以通过如下方法设置该值．</p>
+<blockquote><p>export `tr &#8216;\0&#8242; &#8216;\n&#8217; &lt; /proc/$(pidof duihome)/environ|grep DBUS_SESSION_BUS_ADDRESS`</p></blockquote>
+<h3>工具１：dbus-send/dbus-monitor</h3>
+<p>这个是随dbus软件包一起发布的工具，封装比较底层，这里不做介绍了。可以在控制台命令行里输入man dbus-send查询详细用法。</p>
+<h3>工具2：qdbus</h3>
+<p>该工具是基于Qt的一个命令行工具。用法如下</p>
+<blockquote><p>qdbus [--system] [--literal] [servicename] [path] [method] [args]</p>
+<p>servicename       the service to connect to (e.g., org.freedesktop.DBus)<br />
+path              the path to the object (e.g., /)<br />
+method            the method to call, with or without the interface<br />
+args              arguments to pass to the call</p></blockquote>
+<p>有两个参数</p>
+<blockquote><p>&#8211;system         连接到system-bus(dbus有两种bus,一种是session-bus,一种是system-bus,不加参数默认连接到session-bus.)<br />
+&#8211;literal         打印原始返回信息</p></blockquote>
+<p>* 如果qdbus命令不带任何参数，将会列出在dbus上所有的service.<br />
+* 假如参数里只有service的名字，那么qdbus会列出所有的对象路径.<br />
+* 如果qdbus命令给出了service的名字和对应的对象路径,则该路径上的方法,信号和可用的属性都会被列出来．</p>
+<p><span id="more-2017"></span></p>
+<h4>qdbus 用法举例</h4>
+<p>列出session bus的所有service</p>
+<blockquote><p>$ qdbus</p></blockquote>
+<p>列出system bus的所有service</p>
+<blockquote><p>$ qdbus &#8211;system</p></blockquote>
+<p>列出com.nokia.meego-im-uiserver service上所有路径</p>
+<blockquote><p>$ qdbus com.nokia.meego-im-uiserver</p></blockquote>
+<p>列出com.nokia.meego-im-uiserver service上某一路径里可用的方法</p>
+<blockquote><p>$ qdbus com.nokia.meego-im-uiserver /org/maemo/duiinputmethodserver1</p></blockquote>
+<p>调用指定service,指定路径上的某个方法。</p>
+<blockquote><p>$ qdbus com.nokia.meego-im-uiserver /org/maemo/duiinputmethodserver1 org.maemo.duiinputmethodserver1.showInputMethod</p></blockquote>
+<h3>工具3：d-feet</h3>
+<p>d-feet是一个用python写的应用，在MeeGo中可以用如下命令安装</p>
+<blockquote><p>#zypper install d-feet</p></blockquote>
+<p>要查看系统里有哪些已经注册的dbus service, 运行d-feet命令</p>
+<blockquote><p>#d-feet</p></blockquote>
+<p><a href="http://www.cuteqt.com/blog/wp-content/uploads/2011/02/Dfeet-dbus1.png"><img class="alignnone size-medium wp-image-2042" title="Dfeet-dbus1" src="http://www.cuteqt.com/blog/wp-content/uploads/2011/02/Dfeet-dbus1-300x211.png" alt="" width="540" height="390" /></a><br />
+如要调用指定的method,在对应的method上双击就可以了．<br />
+<a href="http://www.cuteqt.com/blog/wp-content/uploads/2011/02/Dfeet-dbus2.png"><img class="alignnone size-medium wp-image-2044" title="Dfeet-dbus2" src="http://www.cuteqt.com/blog/wp-content/uploads/2011/02/Dfeet-dbus2-300x211.png" alt="" width="540" height="390" /></a><br />
+如要如果该method需要参数，则会弹出参数选项框<br />
+<a href="http://www.cuteqt.com/blog/wp-content/uploads/2011/02/Dfeet-dbus3.png"><img class="alignnone size-medium wp-image-2045" title="Dfeet-dbus3" src="http://www.cuteqt.com/blog/wp-content/uploads/2011/02/Dfeet-dbus3-240x300.png" alt="" width="240" height="300" /></a></p>
+<h3>工具4：qdbusviewer</h3>
+<p>qdbusviewer则是Qt软件包中的一个开发工具，在MeeGo中可以用如下命令安装</p>
+<blockquote><p>#zypper install qt-devel-tools</p></blockquote>
+<p>要查看系统里有哪些已经注册的dbus service, 运行qdbusviewer命令</p>
+<blockquote><p>#qdbusviewer</p></blockquote>
+<p><a href="http://www.cuteqt.com/blog/wp-content/uploads/2011/02/Qdbusviewer.png"><img class="alignnone size-medium wp-image-2050" title="Qdbusviewer" src="http://www.cuteqt.com/blog/wp-content/uploads/2011/02/Qdbusviewer-300x277.png" alt="" width="540" height="500" /></a><br />
+如果想调用对应的method,在该方法上点击鼠标右键，可以看到&#8221;Call&#8221;字样，选择即可<br />
+<a href="http://www.cuteqt.com/blog/wp-content/uploads/2011/02/Qdbusviewer_call.png"><img class="alignnone size-medium wp-image-2051" title="Qdbusviewer_call" src="http://www.cuteqt.com/blog/wp-content/uploads/2011/02/Qdbusviewer_call-300x277.png" alt="" width="540" height="500" /></a></p>
+<h3>结语</h3>
+<p>有了这些工具，你不仅可以很方便的知道系统里的服务是不是正常被注册运行了。还可以无中生有的产生一些事件，比如模拟短信收到，或者电话拨入等。这样你在模拟器上也可以调试一些本啦需要硬件支持的功能了。</p>
+]]></content:encoded>
+			<wfw:commentRss>http://www.cuteqt.com/blog/?feed=rss2&amp;p=2017</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>关于Qt的新消息</title>
+		<link>http://www.cuteqt.com/blog/?p=2015</link>
+		<comments>http://www.cuteqt.com/blog/?p=2015#comments</comments>
+		<pubDate>Wed, 16 Feb 2011 10:54:20 +0000</pubDate>
+		<dc:creator>shiroki</dc:creator>
+				<category><![CDATA[新闻类]]></category>
+		<category><![CDATA[news]]></category>
+		<category><![CDATA[Qt]]></category>
+		<category><![CDATA[update]]></category>
+
+		<guid isPermaLink="false">http://www.cuteqt.com/blog/?p=2015</guid>
+		<description><![CDATA[原作者Aron Kozak 发布于 February 14, 2011
+原文链接：http://blog.qt.nokia.com/2011/02/14/update-on-qt/
+从Daniel周六发表的文章的海量评论来看， 你们的感受与我们相似。当然现在不能算是Qt历史上的辉煌时刻， 但也并不是你们中的一部分预言的Qt的末日。
+因为要动身去移动世界大会(Mobile World Congress)以了解更多最近发生的事件，笔者无法继续回复周六文章上的所有评论。   在过去的24小时多的时间中， 我们已经做了内部的Nokia简报、参加了Stephen Elop的新闻发布会，并参加了App  Planet，包括Nokia开发者大会以Rich Green(Nokia CTO)和Sebastian Nyström (VP of  Application Services和Frameworks)为代表的主题演讲。所以在倾听了这些演讲并询问了很多你们提出的问题之后，  以下是我们可以告诉大家的：
+Qt未死， 这是确信无疑的。 今天早晨我们听到Nokia的高层，如CTO Rich Green谈论关于Qt和未来， Qt将继续在Symbian、MeeGo和非手机的Qt产业和平台中存在。在Nokia开发者大会上Green先生重申以下几点：
+
+“我们依然是Qt的狂热爱好者”
+“我们将继续基于Qt工作并提升Qt。”
+“在Mobile Phone部分， 我们将检验Qt技术In the Mobile Phone segments we are going to be examining Qt technologies.”
+“Qt Quick被证明是一个极其高效的平台 －－ 卓越的高产性和强大的功能 －－ 这将继续。”
+谈到Symbian： “我们将用最新版本的Qt和Qt Quick更新设备。”
+
+在Nokia的新闻发布会上， 我们的CEO，Stephen Elop也重点讲到Symbian。 [...]]]></description>
+			<content:encoded><![CDATA[<div>原作者Aron Kozak 发布于 <abbr title="2011-02-14">February 14, 2011</abbr></div>
+<div>原文链接：<a href="http://blog.qt.nokia.com/2011/02/14/update-on-qt/">http://blog.qt.nokia.com/2011/02/14/update-on-qt/</a></div>
+<p>从<a href="http://blog.qt.nokia.com/2011/02/12/nokia-new-strategic-direction-what-is-the-future-for-qt/">Daniel周六发表的文章</a>的海量评论来看， 你们的感受与我们相似。当然现在不能算是Qt历史上的辉煌时刻， 但也并不是你们中的一部分预言的Qt的末日。</p>
+<p>因为要动身去移动世界大会(Mobile World Congress)以了解更多最近发生的事件，笔者无法继续回复周六文章上的所有评论。   在过去的24小时多的时间中， 我们已经做了内部的Nokia简报、参加了Stephen Elop的新闻发布会，并参加了App  Planet，包括Nokia开发者大会以Rich Green(Nokia CTO)和Sebastian Nyström (VP of  Application Services和Frameworks)为代表的主题演讲。所以在倾听了这些演讲并询问了很多你们提出的问题之后，  以下是我们可以告诉大家的：</p>
+<p>Qt未死， 这是确信无疑的。 今天早晨我们听到Nokia的高层，如CTO Rich Green谈论关于Qt和未来， Qt将继续在Symbian、MeeGo和非手机的Qt产业和平台中存在。在Nokia开发者大会上Green先生重申以下几点：</p>
+<ul>
+<li><em>“我们依然是Qt的狂热爱好者”</em></li>
+<li><em>“我们将继续基于Qt工作并提升Qt。”</em></li>
+<li><em>“在Mobile Phone部分， 我们将检验Qt技术In the Mobile Phone segments we are going to be examining Qt technologies.”</em></li>
+<li><em>“Qt Quick被证明是一个极其高效的平台 －－ 卓越的高产性和强大的功能 －－ 这将继续。”</em></li>
+<li>谈到Symbian： <em>“我们将用最新版本的Qt和Qt Quick更新设备。”</em></li>
+</ul>
+<p>在Nokia的新闻发布会上， 我们的CEO，Stephen Elop也重点讲到Symbian。 我们将继续投资在Symbian研发上，  并继续发布基于Symbian的设备。  他重申，我们将在未来的几年中生产大量的Symbian设备。除了当前在市场上已经存在的几百万台支持Qt的电话之外的 一亿五千万台设备是目前的预期。  此外， 我们还在推进Qt SDK 1.1。 这将是我们第一次在一个整套的包中发布Qt Quick。 我们计划近期发布beta版本，  虽然尚无法公布确切的时间。</p>
+<p>简而言之，我们听到的消息和Daniel在周六所说的一致。 你们中的一部分表达了对我们所说的内容的怀疑态度。 我们未来的智能手机战略逐步远离Qt， 对于那些已经在Qt手机开发中有所投入的人感受到的强烈的挫折感我们理解并有同感。</p>
+<p>我们不想表现得过于天真或盲目， 但情况并不像某些人理解的那样糟糕。 现在就“将墙涂黑”（按挪威人的说法）还为时过早。</p>
+<p>没有什么神奇的表述能让我们证明事情将会很好， 但我们将努力维护开源社区并不断进步。 我们将向你证明Qt仍在不断开发中， 我们将庆祝Qt在Nokia内部和在社区生态系统中的成功， 同时， 我们希望您能参与到协助确保我们能让Qt保持在正确的方向上前进。</p>
+]]></content:encoded>
+			<wfw:commentRss>http://www.cuteqt.com/blog/?feed=rss2&amp;p=2015</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
 		<item>
 		<title>来自Qt官方博客－Nokia定义了新的战略方向,那么Qt的未来将会如何?</title>
 		<link>http://www.cuteqt.com/blog/?p=2012</link>
@@ -31,12 +531,102 @@
 
 		<guid isPermaLink="false">http://www.cuteqt.com/blog/?p=2012</guid>
 		<description><![CDATA[原文 http://qt.nokia.com/about-us-cn/news/from-qt-blog-nokia-new-strategic-direction-what-is-the-future-for-qt
+Daniel Kihlberg,  2011年2月12日
+今天真是一个重要的日子…诺基亚明确了它在智能手机上新的平台战略, 即与微软成为合作伙伴, 将Windows Phone作为主要的智能手机平台…并且微软的开发工具将被应用于在诺基亚生产的Windows Phone手机上的应用开发…然后呢, 这带来了对Qt社区的一系列问题.
+最重要的问题是, Qt的未来将会如何?
+Qt将继续在诺基亚扮演重要的角色, 这是因为以下的几个主要原因:
+    * 继续维持对诺基亚现有的两亿Symbian用户的支持是非常重要的任务,同时诺基亚还制定了在未来几年内销售超过一亿五千万台Symbian手机的目标. 为了达到这个目标, 诺基亚需要继续用Qt来优化Symbian, 以鼓励现有用户将Symbian手机升级为支持Qt的手机,并吸引更多新用户购买诺基亚手机.
+    * 诺基亚同时宣布了在2011年出货第一款MeeGo手机, 这是依赖于Qt 的产业体系的.. 并将保留MeeGo作为一个开源的项目以待未来. 诺基亚已无法承受再次失去未来发展良机了, 而Qt将在其中扮演重要的角色. 
+    *  随着Qt Quick 和Qt SDK 1.1 在未来几个月中的发布,我们期待着Qt 开发者社区的进一步发展 – 当然是在目前超过400,000使用Qt的开发者基础上. Qt是和社区共同发展的, 我们也期望随着社区的发展, 创新的脚步将会迈得更大. 
     * 包括诺基亚在内,有成千上万的公司在使用并回馈着  [...]]]></description>
 			<content:encoded><![CDATA[<p>原文 <a href="http://qt.nokia.com/about-us-cn/news/from-qt-blog-nokia-new-strategic-direction-what-is-the-future-for-qt">http://qt.nokia.com/about-us-cn/news/from-qt-blog-nokia-new-strategic-direction-what-is-the-future-for-qt</a></p>
+<p>Daniel Kihlberg,  2011年2月12日</p>
+<p>今天真是一个重要的日子…诺基亚明确了它在智能手机上新的平台战略, 即与微软成为合作伙伴, 将Windows Phone作为主要的智能手机平台…并且微软的开发工具将被应用于在诺基亚生产的Windows Phone手机上的应用开发…然后呢, 这带来了对Qt社区的一系列问题.</p>
+<p>最重要的问题是, Qt的未来将会如何?</p>
+<p>Qt将继续在诺基亚扮演重要的角色, 这是因为以下的几个主要原因:</p>
+<p>    * 继续维持对诺基亚现有的两亿Symbian用户的支持是非常重要的任务,同时诺基亚还制定了在未来几年内销售超过一亿五千万台Symbian手机的目标. 为了达到这个目标, 诺基亚需要继续用Qt来优化Symbian, 以鼓励现有用户将Symbian手机升级为支持Qt的手机,并吸引更多新用户购买诺基亚手机.</p>
+<p>    * 诺基亚同时宣布了在2011年出货第一款MeeGo手机, 这是依赖于Qt 的产业体系的.. 并将保留MeeGo作为一个开源的项目以待未来. 诺基亚已无法承受再次失去未来发展良机了, 而Qt将在其中扮演重要的角色. </p>
+<p>    *  随着Qt Quick 和Qt SDK 1.1 在未来几个月中的发布,我们期待着Qt 开发者社区的进一步发展 – 当然是在目前超过400,000使用Qt的开发者基础上. Qt是和社区共同发展的, 我们也期望随着社区的发展, 创新的脚步将会迈得更大. </p>
+<p>    * 包括诺基亚在内,有成千上万的公司在使用并回馈着  Qt, 这使得Qt 被广泛应用于移动应用, 桌面应用和各种嵌入式应用的开发. </p>
+<p>    * Qt 的扩展: 我们一直都在招募Qt的开发者, 并将在未来持续的提升和扩展Qt . Qt在发布创新方面非常出色, 我们在过去的15年里一直都在这么做. 随着即将发布的Qt Quick的到来, 我们将可以接触到更多的新用户, 并把在多个平台上(包括Symbian和MeeGo)开发出色的应用和UI变得更加简单. </p>
+<p>    * 从最新的 Qt SDK 1.1 技术来看. 我们为桌面和移动开发者提供了同一个SDK, 而这意味着更容易的实现使用一个SDK在更多平台上进行开发. </p>
+<p>    * Qt 随处可见. Qt 不断得取得各种进展, 尤其是在低端Linux设备以及一些轻量级设备上. Qt一直致力于提供一个利于创新和差异化的平台,  举个例子, Dreamworks 把他们内部所有制作动画的工具都换成了Qt, 并制作出了许多优秀的电影如” 超级大坏蛋”和”训龙记”.</p>
+<p>Qt 正在变得越来越流行.  在 2010年, 从qt.nokia.com 上产生了超过一百五十万次下载 – 这是2009年的两倍  – 同时伴随着不断的创新, 更多的投入以及开放的管理方式, 我相信Qt将会被越来越广的应用. </p>
+<p>Daniel Kihlberg<br />
 Director Qt Ecosystem – Qt Sales, Marketing and Services<br />
 原文链接：<a href="http://blog.qt.nokia.com/2011/02/12/nokia-new-strategic-direction-what-is-the-future-for-qt/">http://blog.qt.nokia.com/2011/02/12/nokia-new-strategic-direction-what-is-the-future-for-qt/</a></p>
 ]]></content:encoded>
 			<wfw:commentRss>http://www.cuteqt.com/blog/?feed=rss2&amp;p=2012</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>去掉view项的焦点虚线框的方法memo</title>
+		<link>http://www.cuteqt.com/blog/?p=2008</link>
+		<comments>http://www.cuteqt.com/blog/?p=2008#comments</comments>
+		<pubDate>Tue, 25 Jan 2011 14:55:13 +0000</pubDate>
+		<dc:creator>shiroki</dc:creator>
+				<category><![CDATA[Linux技术]]></category>
+		<category><![CDATA[Qt技术]]></category>
+		<category><![CDATA[Windows技术]]></category>
+		<category><![CDATA[focus]]></category>
+		<category><![CDATA[Model/View]]></category>
+		<category><![CDATA[Qt4]]></category>
+		<category><![CDATA[view]]></category>
+
+		<guid isPermaLink="false">http://www.cuteqt.com/blog/?p=2008</guid>
+		<description><![CDATA[Qt中的view类，如QListView， 在其项被选中时会有一个焦点虚线框表示焦点的位置。 不知道为啥，这个焦点虚线框很不招人待见， 笔者至今已经遇到多例想要去掉该虚线框的问题。
+笔者能想到的有两个方法， memo如下：
+使用QItemDelegate子类
+对QItemDelegate这个类笔者在此不多做讨论， 详情参考Qt文档。 简单来说，这个类可以控制view中的项的绘制方式，其中包括焦点虚线框的绘制。 而且焦点虚线框的绘制被封装在一个虚函数中， 所以通过派生QItemDelegate就可以重新定义该函数的功能 &#8212; 如什么都不画。 具体对应的虚函数是：
+http://qt.nokia.com/doc/4.6/qitemdelegate.html#drawFocus 
+有了QItemDelegate的子类后，我们需要调用QAbstractItemView的setItemDelegate方法将我们的item delegate与view关联。 这个itemdelegate可以为view全局有效，或针对某个item， 也可以调用setItemDelegateForRow/Column设置针对行或列有效的delegate。
+使用QStyle子类
+这个方法的作用原理和第一种方法基本一致， 因为QItemDelegate的drawFocus函数调用QStyle的drawPrimitive虚函数去做实际的绘制， 所以如果我们重新定义这个绘制过程能达到同样的效果。 drawPrimitive函数负责绘制非常基本的界面元素， 根据传入的参数判断需要绘制的元素， 具体到本例就是要针对PE_FrameFocusRect元素做特殊处理。 例子代码如下：
+
+class NoFocusRectangleStyle: public QCommonStyle
+{
+public:
+...
+void NoFocusRectangleStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *option,
+QPainter *painter, const QWidget *widget) const
+{
+if (QStyle::PE_FrameFocusRect == element &#038;&#038; widget &#038;&#038; widget->inherits("QListWidget"))
+return;
+else
+QCommonStyle::drawPrimitive(element, option, painter,
+widget);
+}
+}; 
+一般我们派生QStyle不会傻乎乎地去派生这个基本的基类， 更常见的是派生与我们需要的风格最接近的类，一般是我们的程序默认使用的类。 我们的派生类可能非常简单， 只重写drawPrimitive这么一个函数， 几行代码搞定。 使用方法是调用QApplication::setStyle， 或者QWidget::setStyle， 前者将style效果应用到程序中的所有窗体，后者将效果限制在当前窗体。
+小小memo， 希望对广大Qter有所帮助。 如果大家有其他方法欢迎留言。
+]]></description>
+			<content:encoded><![CDATA[<p>Qt中的view类，如QListView， 在其项被选中时会有一个焦点虚线框表示焦点的位置。 不知道为啥，这个焦点虚线框很不招人待见， 笔者至今已经遇到多例想要去掉该虚线框的问题。</p>
+<p>笔者能想到的有两个方法， memo如下：<br />
+<strong><span style="color: #0000ff;">使用QItemDelegate子类</span></strong><br />
+对QItemDelegate这个类笔者在此不多做讨论， 详情参考Qt文档。 简单来说，这个类可以控制view中的项的绘制方式，其中包括焦点虚线框的绘制。 而且焦点虚线框的绘制被封装在一个虚函数中， 所以通过派生QItemDelegate就可以重新定义该函数的功能 &#8212; 如什么都不画。 具体对应的虚函数是：<br />
+<a href="http://qt.nokia.com/doc/4.6/qitemdelegate.html#drawFocus">http://qt.nokia.com/doc/4.6/qitemdelegate.html#drawFocus </a></p>
+<p>有了QItemDelegate的子类后，我们需要调用QAbstractItemView的setItemDelegate方法将我们的item delegate与view关联。 这个itemdelegate可以为view全局有效，或针对某个item， 也可以调用setItemDelegateForRow/Column设置针对行或列有效的delegate。</p>
+<p><strong><span style="color: #0000ff;">使用QStyle子类</span></strong><br />
+这个方法的作用原理和第一种方法基本一致， 因为QItemDelegate的drawFocus函数调用QStyle的drawPrimitive虚函数去做实际的绘制， 所以如果我们重新定义这个绘制过程能达到同样的效果。 drawPrimitive函数负责绘制非常基本的界面元素， 根据传入的参数判断需要绘制的元素， 具体到本例就是要针对PE_FrameFocusRect元素做特殊处理。 例子代码如下：<br />
+<code><br />
+class NoFocusRectangleStyle: public QCommonStyle<br />
+{<br />
+public:<br />
+...<br />
+void NoFocusRectangleStyle::drawPrimitive(PrimitiveElement element, const QStyleOption *option,<br />
+QPainter *painter, const QWidget *widget) const<br />
+{<br />
+if (QStyle::PE_FrameFocusRect == element &#038;&#038; widget &#038;&#038; widget->inherits("QListWidget"))<br />
+return;<br />
+else<br />
+QCommonStyle::drawPrimitive(element, option, painter,<br />
+widget);<br />
+}<br />
+}; </code></p>
+<p>一般我们派生QStyle不会傻乎乎地去派生这个基本的基类， 更常见的是派生与我们需要的风格最接近的类，一般是我们的程序默认使用的类。 我们的派生类可能非常简单， 只重写drawPrimitive这么一个函数， 几行代码搞定。 使用方法是调用QApplication::setStyle， 或者QWidget::setStyle， 前者将style效果应用到程序中的所有窗体，后者将效果限制在当前窗体。</p>
+<p>小小memo， 希望对广大Qter有所帮助。 如果大家有其他方法欢迎留言。</p>
+]]></content:encoded>
+			<wfw:commentRss>http://www.cuteqt.com/blog/?feed=rss2&amp;p=2008</wfw:commentRss>
 		<slash:comments>0</slash:comments>
 		</item>
 	</channel>

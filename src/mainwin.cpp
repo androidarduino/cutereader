@@ -41,8 +41,24 @@ MainWin::MainWin(QWidget*p, Qt::WindowFlags f):QMainWindow(p,f)
 	
         connect(ui.action_Add_Channel, SIGNAL(triggered()), this, SLOT(addChannel()));
         connect(ui.action_About, SIGNAL(triggered()), this, SLOT(about()));
+        connect(ui.action_Switch_Page_Mode, SIGNAL(toggled(bool)), this, SLOT(switchPageMode(bool)));
 
 	QTimer::singleShot(0, this, SLOT(laterInitialize()));
+}
+
+void MainWin::switchPageMode(bool mode)
+{
+    //show the list in the webview or in the seperate list?
+    ui.titleList->setVisible(mode);
+    if( mode )
+    {
+        ui.action_Switch_Page_Mode->setText("Show &title list");
+    }
+    else
+    {
+        ui.action_Switch_Page_Mode->setText("Hide &title list");
+    }
+
 }
 
 void MainWin::laterInitialize()
@@ -54,7 +70,7 @@ void MainWin::laterInitialize()
 	addChannel("http://hi.baidu.com/myboymike/rss", "MyBoyMike", true);
 	addChannel("http://feed.feedsky.com/CuteQt", "CuteQt", true);
         displayContent(welcomePage());
-	
+        switchPageMode(ui.action_Switch_Page_Mode->isChecked());
 
 }
 const QString MainWin::welcomePage()
@@ -78,20 +94,10 @@ void MainWin::displayContent(const QString& content)
     ui.articleView->setHtml( content);
 }
 
-void MainWin::displayContent(int id)
+void MainWin::displayContent(int id /*= -1//display all content */)
 {
     QString content;
-#ifdef RSS_DOCUMENT_SUPPORT
-    content = currentchannel->feedContent();
-#else
-        QString channelinfo, titleinfo, titlecontent;
-
-	qWarning("display content:%d", id);
-	channelinfo = "<p><a href=" + currentchannel->getChannelLink() + ">" + currentchannel->getChannelName() + "</a></p>";
-	titleinfo = "<p><a href=" + currentchannel->getTitleLink(id) + ">" + currentchannel->getTitleName(id) + "</a></p>";
-	titlecontent = currentchannel->getTitleContent(id);
-	content = channelinfo + titleinfo + titlecontent;
-#endif
+    content = currentchannel->feedContent(id);
         displayContent(content);
         debugFile(content, 100+id);
         debugFile(currentchannel->getRawData(), 200+id);

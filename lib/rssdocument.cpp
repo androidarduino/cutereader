@@ -21,32 +21,41 @@ RSSItem::RSSItem(QDomElement e)
     {
         QDomElement c=properties.at(i).toElement();
         QString tagName=c.tagName().toLower();
-        if(tagName=="title")
+        qWarning() << "itemtagname:" << tagName;
+        if( tagName == "encoded")//"content:encoded"
+	{
+		contentencoded = c.text();
+            qDebug() << "content:encoded:" << contentencoded;
+	}
+        else if(tagName=="title")
             qDebug()<<tagName+": "<<(title=c.text());
-        if(tagName=="link")
+        else if(tagName=="link")
             qDebug()<<tagName+": "<<(link=c.text());
-        if(tagName=="description")
-            qDebug()<<tagName+": "<<(description=c.text());
-        if(tagName=="author")
+        else if(tagName=="description")
+	{
+		description = c.text();
+        //    qDebug() << "description:" << description;
+	}
+        else if(tagName=="author")
             qDebug()<<tagName+": "<<(author=c.text());
-        if(tagName=="category")//rsscategory
+        else if(tagName=="category")//rsscategory
         {
             RSSCategory* ct=new RSSCategory();
             ct->setDocument(c);
             categories<<ct;
         }
-        if(tagName=="comments")
+        else if(tagName=="comments")
             qDebug()<<tagName+": "<<(comments=c.text());
-        if(tagName=="enclosure")//rssenclosure
+        else if(tagName=="enclosure")//rssenclosure
         {
             enclosure.setDocument(c);
             qDebug()<<tagName+ ": " + enclosure.toHtml();
         }
-        if(tagName=="guid")
+        else if(tagName=="guid")
             qDebug()<<tagName+": "<<(guid=c.text());
-        if(tagName=="pubdate")
+        else if(tagName=="pubdate")
             qDebug()<<tagName+": "<<(pubDate=QDateTime::fromString(c.text().left(QString(RFC822).length()), RFC822));
-        if(tagName=="source")
+        else if(tagName=="source")
             qDebug()<<tagName+": "<<(source=c.text());
     }
 }
@@ -56,6 +65,81 @@ RSSDocument::RSSDocument()
 
 }
 
+const QString RSSDocument::feedContentHint(void)
+{
+    QString titleinfo, content;
+    const QList<RSSFeed*> list = getFeedList();
+    if( list.count() == 0)
+        return content;
+
+    RSSFeed* fd;
+    QString copyright, docs, generator, language, lastbuilddate, link, managingeditor, pubdate, rating,textinput, webmaster;
+    foreach(fd, list)
+    {
+        copyright = fd->getProperty(RSSFeed::Copyright).toString();
+        docs = fd->getProperty(RSSFeed::Docs).toString();
+        generator = fd->getProperty(RSSFeed::Generator).toString();
+        language = fd->getProperty(RSSFeed::Language).toString();
+        //lastbuilddate = fd->getProperty(RSSFeed::LastBuildDate);
+        link = fd->getProperty(RSSFeed::Link).toString();
+        managingeditor = fd->getProperty(RSSFeed::ManagingEditor).toString();
+        pubdate = fd->getProperty(RSSFeed::PubDate).toString();
+        rating = fd->getProperty(RSSFeed::Rating).toString();
+        textinput = fd->getProperty(RSSFeed::TextInput).toString();
+        webmaster = fd->getProperty(RSSFeed::WebMaster).toString();
+        qDebug() << "BJBJ:Copyright:" << copyright;
+        qDebug() << "BJBJ:Docs:" << docs;
+        qDebug() << "BJBJ:Generator:" << generator;
+        qDebug() << "BJBJ:Language:" << language;
+        qDebug() << "BJBJ:LastBuildDate:" << lastbuilddate;
+        qDebug() << "BJBJ:Link:" << link;
+        qDebug() << "BJBJ:ManagingEditor:" << managingeditor;
+        qDebug() << "BJBJ:PubDate:" << pubdate;
+        qDebug() << "BJBJ:Rating:" << rating;
+        qDebug() << "BJBJ:TextInput:" << textinput;
+        qDebug() << "BJBJ:WebMaster:" << webmaster;
+        titleinfo += "RSS from <a href=\"" + link + "\">" + "</a><br>";
+        titleinfo+= "<a href=\"" + link + "\">" + link + "</a><br>";
+        titleinfo += "<p>-------------------------------------------</p>";
+
+        //feed items
+        RSSItem* it;
+        QList<RSSItem*> itemlist = fd->getItems();
+        if(itemlist.count() == 0)
+            continue;
+        foreach(it, itemlist)
+        {
+            /*
+    QString title;//The title of the item.  Venice Film Festival Tries to Quit Sinking
+    QUrl link;//The URL of the item.    http://nytimes.com/2004/12/07FEST.html
+    QString description;//The item synopsis.  Some of the most heated chatter at the Venice Film Festival this week was about the way that the arrival of the stars at the Palazzo del Cinema was being staged.
+    QString author;//Email address of the author of the item. More.  oprah\@oxygen.net
+    QList<RSSCategory*> categories;//Includes the item in one or more categories. More.
+    QUrl comments;//URL of a page for comments relating to the item. More.  http://www.myblog.org/cgi-local/mt/mt-comments.cgi?entry_id=290
+    RSSEnclosure enclosure;//Describes a media object that is attached to the item. More.
+    QString guid;//A string that uniquely identifies the item. More.   http://inessential.com/2002/09/01.php#a2
+    QDateTime pubDate;//Indicates when the item was published. More.    Sun, 19 May 2002 15:21:36 GMT
+    QString source;//The RSS channel that the item came from. More.
+            qDebug() << "BJBJ:title:" << it->title;
+            qDebug() << "BJBJ:description:" << it->description;
+            qDebug() << "BJBJ:author:" << it->author;
+            qDebug() << "BJBJ:categories:" << it->categories;
+            qDebug() << "BJBJ:comments:" << it->comments;
+            //qDebug() << "BJBJ:enclosure:" << it->enclosure;
+            qDebug() << "BJBJ:link:" << it->link;
+            qDebug() << "BJBJ:guid:" << it->guid;
+            qDebug() << "BJBJ:pubDate:" << it->pubDate;
+            qDebug() << "BJBJ:source:" << it->source;
+              */
+            titleinfo += "<a href= \"" + it->link.toString() + "\">" + it->title+ "</a><br>";
+            content += "<p><h2><a href= \"" + it->link.toString() + "\">" + it->title+ "</a></h2></p>" + (it->contentencoded.isEmpty()? it->source: it->contentencoded) + "<br><br>";
+        }
+
+    }
+
+    content = titleinfo + content;
+	return content;
+}
 const QVariant RSSFeed::getProperty(RSS property) const
 //get property listed in enum RSSChannelProperty
 {
@@ -110,15 +194,11 @@ bool RSSDocument::setDocument(const QByteArray xmlSrc)
     bool result = m_doc.setContent(xmlSrc, true);
     if( ! result) return result;
     //find <rss> root
+    m_feeds.clear();
     QDomElement rssRoot=m_doc.elementsByTagName("rss").at(0).toElement();//in atom this root doesn't exist
     QDomNodeList feeds=rssRoot.elementsByTagName("channel");//or <feed>
     for(uint i=0;i<feeds.length();i++)
         m_feeds<<new RSSFeed(feeds.at(i));
-//debug
-    QDomNode node=m_doc.firstChildElement("rss").firstChildElement("channel").childNodes().at(0).childNodes().at(0);
-    QString title=node.toElement().text();
-    qDebug()<<"BJBJ content: "<<title;
-
     return result;
 }
 
@@ -129,49 +209,52 @@ RSSFeed::RSSFeed(QDomNode e)
     {
         QDomElement c=children.at(i).toElement();
         QString tagName=c.tagName().toLower();
+        qWarning() << "feedtagname:" << tagName;
 
         if(tagName=="item")
         {
             m_items<<new RSSItem(c);
         }
+        else if( tagName == "content:encoded")
+            qWarning() << "content:encoded:" << c.text();
 
-        if(tagName=="title")
+        else if(tagName=="title")
             qDebug()<<"TITLE: "<<(title=c.text());
-        if(tagName=="link")
+        else if(tagName=="link")
             qDebug()<<"LINK: "<<(link=c.text());
-        if(tagName=="description")
+        else if(tagName=="description")
             qDebug()<<"DESCRIPTION: "<<(description=c.text());
-        if(tagName=="language")
+        else if(tagName=="language")
             qDebug()<<"LANGUAGE: "<<(language=c.text());
-        if(tagName=="copyright")
+        else if(tagName=="copyright")
             qDebug()<<"COPYRIGHT: "<<(copyright=c.text());
-        if(tagName=="managingeditor")
+        else if(tagName=="managingeditor")
             qDebug()<<"MANAGINGEDITOR: "<<(managingEditor=c.text());
-        if(tagName=="webmaster")
+        else if(tagName=="webmaster")
             qDebug()<<"WEBMASTER: "<<(webMaster=c.text());
-        if(tagName=="pubdate")//datetime
+        else if(tagName=="pubdate")//datetime
             qDebug()<<"PUBDATE: "<<(pubDate=QDateTime::fromString(c.text().left(QString(RFC822).length()), RFC822));
-        if(tagName=="lastBuildDate")//datetime
+        else if(tagName=="lastBuildDate")//datetime
             qDebug()<<"LASTBUILDDATE: "<<(lastBuildDate=QDateTime::fromString(c.text().left(QString(RFC822).length()), RFC822));
-        if(tagName=="generator")
+        else if(tagName=="generator")
             qDebug()<<"GENERATOR: "<<(generator=c.text());
-        if(tagName=="docs")
+        else if(tagName=="docs")
             qDebug()<<"DOCS: "<<(docs=c.text());
-        if(tagName=="ttl")//int
+        else if(tagName=="ttl")//int
             qDebug()<<"TTL: "<<(ttl=c.text().toInt());
-        if(tagName=="image")//rssimage
+        else if(tagName=="image")//rssimage
             qDebug()<<"IMAGE: "<<c.text();//TODO
-        if(tagName=="pics")//rsspics
+        else if(tagName=="pics")//rsspics
             qDebug()<<"RATING: "<<c.text();//TODO
-        if(tagName=="textinput")//rssTextInput
+        else if(tagName=="textinput")//rssTextInput
             qDebug()<<"TEXTINPUT: "<<c.text();
-        if(tagName=="skiphours")//rssSkipHOurs
+        else if(tagName=="skiphours")//rssSkipHOurs
             qDebug()<<"SKIPHOURS: "<<c.text();
-        if(tagName=="skipdays")//rssskipdays
+        else if(tagName=="skipdays")//rssskipdays
             qDebug()<<"SKIPDAYS: "<<c.text();
-        if(tagName=="category")//rsscategory
+        else if(tagName=="category")//rsscategory
             qDebug()<<"CATEGORY: "<<c.text();
-        if(tagName=="cloud")//rsscloud
+        else if(tagName=="cloud")//rsscloud
             qDebug()<<"CLOUD: "<<c.text();
     }
 }
@@ -242,4 +325,5 @@ void RSSEnclosure::setDocument(QDomElement e)
     length=e.attribute("length").toLong();
     type=e.attribute("type");
 }
+
 

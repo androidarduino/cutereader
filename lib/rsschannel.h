@@ -28,7 +28,7 @@ public:
     ~RssChannel();
     int status();
     const QUrl& url();
-    const QString feedContent();
+    const QString feedContent(int id = -1);
 
 public slots:
     void setUrl(const QUrl& url);
