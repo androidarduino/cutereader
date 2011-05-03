@@ -4,10 +4,10 @@
 	License: GPLv2
 */
 
-#include "wget.h"
 #include <QNetworkAccessManager>
 #include <QDebug>
 #include <QFile>
+#include "wget.h"
 
 WGet::WGet()
 {
@@ -40,7 +40,6 @@ void WGet::finishReply()
 		return;
 	}
 
-
 	/*
 	QFile temp("tmp.xml");
 	temp.open(QIODevice::WriteOnly);
@@ -49,7 +48,6 @@ void WGet::finishReply()
 	*/
 
 	emit requestFinished();
-
 }
 
 void WGet::errorReply(QNetworkReply::NetworkError error)

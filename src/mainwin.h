@@ -30,11 +30,13 @@ protected slots:
 	void connectToChannel(RssChannel*newchannel, bool silent = false);
 	void addChannel(QString channel = "", QString a = "", bool silent = false);
 	void laterInitialize();
+        const QString welcomePage();
 
 private:
 	void listTitles();
-	void displayContent(int id);
-	void debugFile(const QString& content, int id = 0);//output file content to a log file with id+uuid
+        void displayContent(int id);
+        void displayContent(const QString&);
+        void debugFile(const QString& content, int id = 0);//output file content to a log file with id+uuid
 	Ui::MainWindow ui;
 	Ui::AddChannelDialog uiAddChannel;
 	Ui::AboutDialog uiAbout;
@@ -48,8 +50,8 @@ private slots:
 	void channelAddedToModel(const RssChannel*ch) const ;
 	void titleSelected(const QModelIndex& index);
 	void channelSelected(const QModelIndex& index);
+        void showStatus(const QString& msg)const;
 signals:
-	//void channelChanged(RssChannel*);
 };
 
 #endif
