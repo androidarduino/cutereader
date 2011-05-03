@@ -75,7 +75,7 @@ void  RssChannel::download_finish(){
 }
 
 //return the raw content for this channel
-QString RssChannel::getRawData()
+const QByteArray RssChannel::getRawData()
 {
 	return rawData;	
 }
@@ -101,8 +101,7 @@ void RssChannel::rawDataChanged()
 
 const QString RssChannel::feedContent(int id)
 {
-    QString titleinfo, content;
-	content = doc->feedContentHint();
+	QString content = doc->feedContentHint(id);
     return content;
 
 }

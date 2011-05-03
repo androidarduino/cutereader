@@ -7,7 +7,7 @@
 void LogFile(const QString& content)
 {
 	QFile file("rssdocument.log");
-	file.open(QIODevice::Append);
+	file.open(QIODevice::WriteOnly);
 	QTextStream ts(&file);
 	ts << content;
 	file.close();
@@ -48,7 +48,7 @@ RSSItem::RSSItem(QDomElement e)
         else if(tagName=="enclosure")//rssenclosure
         {
             enclosure.setDocument(c);
-            qDebug()<<tagName+ ": " + enclosure.toHtml();
+            //qDebug()<<tagName+ ": " + enclosure.toHtml();
         }
         else if(tagName=="guid")
             qDebug()<<tagName+": "<<(guid=c.text());
@@ -68,7 +68,7 @@ RSSDocument::RSSDocument()
 
 }
 
-const QString RSSDocument::feedContentHint(void)
+const QString RSSDocument::feedContentHint(int id /*= -1*/)
 {
     QString titleinfo, content;
     const QList<RSSFeed*> list = getFeedList();
@@ -114,6 +114,8 @@ const QString RSSDocument::feedContentHint(void)
         QList<RSSItem*> itemlist = fd->getItems();
         if(itemlist.count() == 0)
             continue;
+
+    	int currentid = -1;
         foreach(it, itemlist)
         {
             /*
@@ -127,6 +129,10 @@ const QString RSSDocument::feedContentHint(void)
     QString guid;//A string that uniquely identifies the item. More.   http://inessential.com/2002/09/01.php#a2
     QDateTime pubDate;//Indicates when the item was published. More.    Sun, 19 May 2002 15:21:36 GMT
     QString source;//The RSS channel that the item came from. More.
+              */
+    		currentid ++;
+		if(currentid != id && id != -1)
+			continue;//skip this item
             qDebug() << "BJBJ:title:" << it->title;
             qDebug() << "BJBJ:description:" << it->description;
             qDebug() << "BJBJ:author:" << it->author;
@@ -137,14 +143,13 @@ const QString RSSDocument::feedContentHint(void)
             qDebug() << "BJBJ:guid:" << it->guid;
             qDebug() << "BJBJ:pubDate:" << it->pubDate;
             qDebug() << "BJBJ:source:" << it->source;
-              */
-            titleinfo += "<a href= \"" + it->link.toString() + "\">" + it->title+ "</a><br>";
+            if( id == -1 && !it->link.toString().isEmpty())//index
+	    titleinfo += "<a href= \"" + it->link.toString() + "\">" + it->title+ "</a><br>";
 	    titlecontent = it->contentencoded.isEmpty()? it->source: it->contentencoded;
 	    if(titlecontent.isEmpty()) titlecontent = it->description;
 	    
             content += "<p><h2><a href= \"" + it->link.toString() + "\">" + it->title+ "</a></h2></p>" + titlecontent + "<br><br>";
         }
-
     }
 
     content = titleinfo + content;

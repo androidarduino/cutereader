@@ -25,11 +25,15 @@ int main(int argc, char** argv)
     QWebView view;
     RSSDocument doc;
     QString fileName;
-    if(argc > 0)
+    qWarning() << argc;
+    if(argc > 1)
     doc.setDocument(readFile(argv[1]));
     else
     doc.setDocument(readFile());
 
+    if(argc > 2)
+    view.setHtml(doc.feedContentHint(atoi(argv[2])));
+    else
     view.setHtml(doc.feedContentHint());
     view.show();
     return app.exec();

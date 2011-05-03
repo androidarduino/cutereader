@@ -16,6 +16,7 @@
 class QIODevice;
 class WGet;
 class RSSDocument;
+
 class RssChannel:public QObject
 {
     Q_OBJECT
@@ -30,7 +31,7 @@ public slots:
     void setUrl(const QUrl& url);
     bool connectChannel(void);
     RSSDocument* rssDocument(){return doc;};
-    QString getRawData();
+	const QByteArray getRawData();
     void setRawData(const QByteArray rawdata);//give me the rawcontent, I will parse it!
 signals:
     void doneDownload();
@@ -43,16 +44,12 @@ protected slots:
     //void parse_finish();
 
 private:
-    QMap<int,int> item_num_of_allnodes;
-    QMap<int,QString> titlemap;
     RSSDocument* doc;
     QByteArray rawData;
     QIODevice *buf;
     WGet *getter;
     QUrl channelUrl;
-    QTextCodec *textc;
     int cid;//current title id we'r working on
-    QString ctitlename, ctitlelink, ctitlecontent;
 };
 #endif
 

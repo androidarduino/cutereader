@@ -156,7 +156,7 @@ public:
     typedef enum {Title, Description, Link, Language, Copyright, ManagingEditor, WebMaster, PubDate, LastBuildDate, Generator, Docs, Rating, TextInput}RSS;
 
     RSSFeed(QDomNode e);
-    const QVariant getProperty(RSS property) const;//get property listed in enum RSSChannelProperty
+	virtual const QVariant getProperty(RSS property) const;//get property listed in enum RSSChannelProperty
     QList<RSSItem*> getItems() const;//get all items in the document
     RSSItem& getItem(QString itemId) const;//get an item by guid
 signals:
@@ -200,7 +200,7 @@ public:
     bool setDocument(const QByteArray xmlSrc);
     QString getDocument();
     const QList<RSSFeed*> getFeedList(){ return m_feeds;};
-    const QString feedContentHint(void);
+	virtual const QString feedContentHint(int id = -1);
 
 private:
     QDomDocument m_doc;
