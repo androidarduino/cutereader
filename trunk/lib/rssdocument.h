@@ -139,6 +139,7 @@ public:
     QString title;//The title of the item.  Venice Film Festival Tries to Quit Sinking
     QUrl link;//The URL of the item.    http://nytimes.com/2004/12/07FEST.html
     QString description;//The item synopsis.  Some of the most heated chatter at the Venice Film Festival this week was about the way that the arrival of the stars at the Palazzo del Cinema was being staged.
+    QString contentencoded;//content with format.
     QString author;//Email address of the author of the item. More.  oprah\@oxygen.net
     QList<RSSCategory*> categories;//Includes the item in one or more categories. More.
     QUrl comments;//URL of a page for comments relating to the item. More.  http://www.myblog.org/cgi-local/mt/mt-comments.cgi?entry_id=290
@@ -199,6 +200,8 @@ public:
     bool setDocument(const QByteArray xmlSrc);
     QString getDocument();
     const QList<RSSFeed*> getFeedList(){ return m_feeds;};
+    const QString feedContentHint(void);
+
 private:
     QDomDocument m_doc;
     QString m_version;
