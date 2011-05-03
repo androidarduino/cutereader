@@ -153,7 +153,7 @@ class RSSFeed:public QObject
 {
 Q_OBJECT
 public:
-    typedef enum {Link, Language, Copyright, ManagingEditor, WebMaster, PubDate, LastBuildDate, Generator, Docs, Rating, TextInput}RSS;
+    typedef enum {Title, Description, Link, Language, Copyright, ManagingEditor, WebMaster, PubDate, LastBuildDate, Generator, Docs, Rating, TextInput}RSS;
 
     RSSFeed(QDomNode e);
     const QVariant getProperty(RSS property) const;//get property listed in enum RSSChannelProperty
