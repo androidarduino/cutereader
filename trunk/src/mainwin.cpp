@@ -30,7 +30,8 @@ MainWin::MainWin(QWidget*p, Qt::WindowFlags f):QMainWindow(p,f)
 	ui.setupUi(this);
 	ui.channelTree->setModel(channelmodel);
 	//ui.channelTree->setAlternatingRowColors(true);
-	connect(ui.channelTree, SIGNAL(activated(const QModelIndex&)), this, SLOT(channelSelected(const QModelIndex&)));
+	connect(ui.channelTree, SIGNAL(clicked(const QModelIndex&)), this, SLOT(channelSelected(const QModelIndex&)));
+	connect(ui.channelTree, SIGNAL(doubleClicked(const QModelIndex&)), this, SLOT(forceRefreshChannel(const QModelIndex&)));
 
 	ui.titleList->setModel(titlemodel);
 	ui.titleList->setAlternatingRowColors(true);
@@ -64,9 +65,8 @@ void MainWin::switchPageMode(bool mode)
 void MainWin::laterInitialize()
 {
 	//fake data for debug
-	addChannel("", "EmptyChannel", true);
-        addChannel("http://labs.trolltech.com/blogs/feed/","TrolltechLabs",true);
-        addChannel("http://www.cuteqt.com/blog/?feed=rss2", "CuteQtBlogRss2", true);
+	addChannel("http://labs.trolltech.com/blogs/feed/","TrolltechLabs",true);
+	addChannel("http://www.cuteqt.com/blog/?feed=rss2", "CuteQtBlogRss2", true);
 	addChannel("http://hi.baidu.com/myboymike/rss", "MyBoyMike", true);
 	addChannel("http://feed.feedsky.com/CuteQt", "CuteQt", true);
         displayContent(welcomePage());
@@ -132,7 +132,7 @@ void MainWin::about()
 	dAbout->exec();
 }
 
-void MainWin::addChannel(QString url, QString alias, bool silent)
+const RssChannel* MainWin::addChannel(QString url, QString alias, bool silent)
 {
 	if(url.isEmpty())
 	{
@@ -150,14 +150,14 @@ void MainWin::addChannel(QString url, QString alias, bool silent)
 	{
 		if( QDialog::Accepted != dAddChannel->exec())
 		{
-			return;
+			return NULL;
 		}
 		QString newurl = uiAddChannel.leRssLink->text();
 		//existing channel, show warning and reject change
 		if(channelmodel->contains(newurl))
 		{
                         QMessageBox::information(this, tr("Channel Exists Already!"), tr("No need to add."));
-			return;
+			return NULL;
 		}
 		url = newurl;
 		alias = uiAddChannel.leRssAlias->text();
@@ -165,14 +165,15 @@ void MainWin::addChannel(QString url, QString alias, bool silent)
 
 	qDebug()<< "MainWin::AddChannel" << url << alias;
 	RssChannel* channel = channelmodel->addChannel(url, alias);	
+	connect(channel, SIGNAL(logMessage(const QString)), this, SLOT(showStatus(QString)));
 	if( silent == false)
 	{
 		//connectToChannel(channel, silent);
 	}
-	return;
+	return channel;
 }
 
-void MainWin::connectToChannel(RssChannel*channel, bool silent)
+void MainWin::connectToChannel(RssChannel*channel, bool silent, bool forceupdate)
 {
         showStatus(tr("Connecting to:") + channel->url().toString());
 	if( silent == false)
@@ -190,8 +191,9 @@ void MainWin::connectToChannel(RssChannel*channel, bool silent)
 	}
 	qDebug() << "connect to url" << channel->url();
 	currentchannel = channel;
-        channel->connectChannel();
+		channel->connectChannel(forceupdate);
 }
+
 
 void MainWin::parseFinished()
 {
@@ -219,6 +221,14 @@ void MainWin::channelSelected(const QModelIndex& index)
 	//currentchannel = ch;
 	connectToChannel(ch, true);//silently
 }
+
+void MainWin::forceRefreshChannel(const QModelIndex&index)
+{
+	qDebug() <<"Channel selected: connect to it!";
+	RssChannel* ch = static_cast<RssChannel*> (index.internalPointer());
+	connectToChannel(ch, true, true);//silently
+}
+
 
 void MainWin::channelAddedToModel(const RssChannel*ch) const
 {

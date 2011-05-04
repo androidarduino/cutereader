@@ -29,10 +29,13 @@ static void LogFile(const QString& content)
 	file.close();
 	return;
 }
-RssChannel::RssChannel(void):currentfeedlist(NULL)
+RssChannel::RssChannel(void)
 {
     if( docref == -1)
-        createDocument();
+	{
+		createDocument();//the doc is shared among channels
+		loadSavedFeeds();//load the feed data saved in the disk
+	}
     docref ++;
 
     buf = new QBuffer(this);
@@ -40,9 +43,9 @@ RssChannel::RssChannel(void):currentfeedlist(NULL)
 
     getter = new WGet;
 
-    connect(getter,SIGNAL(requestFinished()),this,SLOT(download_finish()));
-    connect(getter,SIGNAL(networkError(const QString)),this,SIGNAL(networkError(const QString)));
-    connect(this, SIGNAL(doneParse()), SLOT(cacheFeeds()));
+	connect(getter,SIGNAL(requestFinished()),this,SLOT(downloadFinished()));
+	connect(getter,SIGNAL(networkError(const QString&)),this,SIGNAL(networkError(const QString&)));
+
 }
 
 
@@ -80,13 +83,15 @@ void RssChannel::setUrl(const QUrl&url)
 	channelUrl = url;
 }
 
-bool RssChannel::connectChannel()
+bool RssChannel::connectChannel(bool force)
 {
     //check the cache first
-    if( pcurrentfeedlist != 0 )
+	if( !force && !currentfeedlist.isEmpty() )
     {
-        qWarning() << "BJBJ:find the cache for:" << channelUrl;
+		emit logMessage("RssChannel::connectChannel:find the cache for:" + channelUrl.toString());
+		emit doneParse();
 
+		return true;
 
     }
     //not in the cache, then get the content from the site and parse it!
@@ -94,8 +99,8 @@ bool RssChannel::connectChannel()
 	return true;
 }
 
-void  RssChannel::download_finish(){
-    qDebug()<<QString(tr("download finish ..."));
+void  RssChannel::downloadFinished(){
+	qDebug()<<QString(tr("download finished ..."));
     rawData = buf->readAll();
     buf->close();
     emit doneDownload();
@@ -123,19 +128,33 @@ void RssChannel::rawDataChanged()
     }
     else{
         qDebug()<<QString(tr("parse finish ..."));
-        emit doneParse();
+		//parse finishes, we need to save the feeds into the cache
+		cacheFeeds();//update currentfeedlist
+		emit doneParse();
    }
 }
 
 void RssChannel::cacheFeeds(void)
 {
-    //parsing has finished, so we can save the feeds into the cache, so that we can save some time next time to parse it again.
-    currentfeedlist = doc->getFeedList());
+	qDebug() <<"RssChannel::cacheFeeds...";
+	if( !currentfeedlist.isEmpty())
+		currentfeedlist.clear();
+	QList<RSSFeed*> list = doc->getFeedList();
+	while(!list.isEmpty())
+	{
+		currentfeedlist.append(list.takeFirst());
+	}
+}
+
+bool RssChannel::loadSavedFeeds(void)
+{
+	qWarning() << "loadSavedFeeds: not implemented yet!";
+	return false;
 }
 
 const QString RssChannel::feedContent(int id)
 {
-	QString content = doc->feedContentHint(id);
+	QString content = doc->feedContentHint(currentfeedlist, id);
     return content;
 
 }
