@@ -101,7 +101,7 @@ void MainWin::displayContent(int id /*= -1//display all content */)
         displayContent(content);
         debugFile(content, 100+id);
         debugFile(currentchannel->getRawData(), 200+id);
-        //qDebug() <<"content get:" << content;
+        qDebug() <<"display content id:" << id;
 }
 
 
@@ -197,7 +197,7 @@ void MainWin::parseFinished()
 {
         showStatus(tr("Content parsing finished...."));
 	listTitles();
-	displayContent(0);
+        displayContent();
 }
 
 void MainWin::downloadFinished()

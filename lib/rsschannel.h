@@ -10,12 +10,14 @@
 #include <QObject>
 #include <QUrl>
 #include <QMap>
+#include <QList>
 #include <QByteArray>
 #include <QStringList>
 
 class QIODevice;
 class WGet;
 class RSSDocument;
+class RSSFeed;
 
 class RssChannel:public QObject
 {
@@ -44,11 +46,15 @@ protected slots:
     //void parse_finish();
 
 private:
-    RSSDocument* doc;
+    const RSSDocument* createDocument(void);
+    void cacheFeeds(void);
+    static RSSDocument* doc;//single instance shared among all channels
+    static int docref; //reference count for the doc
     QByteArray rawData;
     QIODevice *buf;
     WGet *getter;
     QUrl channelUrl;
+    QList<RSSFeed*> currentfeedlist;//this is the cache for the feeds content
     int cid;//current title id we'r working on
 };
 #endif

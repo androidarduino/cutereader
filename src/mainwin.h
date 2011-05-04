@@ -35,7 +35,7 @@ protected slots:
 
 private:
 	void listTitles();
-        void displayContent(int id);
+        void displayContent(int id = -1);
         void displayContent(const QString&);
         void debugFile(const QString& content, int id = 0);//output file content to a log file with id+uuid
 	Ui::MainWindow ui;
