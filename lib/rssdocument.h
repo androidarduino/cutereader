@@ -200,7 +200,7 @@ public:
     bool setDocument(const QByteArray xmlSrc);
     QString getDocument();
     const QList<RSSFeed*> getFeedList(){ return m_feeds;};
-	virtual const QString feedContentHint(int id = -1);
+	virtual const QString feedContentHint(const QList<RSSFeed*>fl, int id = -1);
 
 private:
     QDomDocument m_doc;

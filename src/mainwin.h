@@ -25,17 +25,17 @@ public:
 protected slots:
 	void about();
 	void parseFinished();
+	void laterInitialize();
 	void reportError(const QString)const;
 	void downloadFinished();
-	void connectToChannel(RssChannel*newchannel, bool silent = false);
-	void addChannel(QString channel = "", QString a = "", bool silent = false);
-	void laterInitialize();
-        const QString welcomePage();
-        void switchPageMode(bool mode);
+	void connectToChannel(RssChannel*newchannel, bool silent = false, bool forceupdate = false);
+	void switchPageMode(bool mode);
+	const QString welcomePage();
+	const RssChannel* addChannel(QString channel = "", QString a = "", bool silent = false);
 
 private:
 	void listTitles();
-        void displayContent(int id = -1);
+		void displayContent(int id = -1);
         void displayContent(const QString&);
         void debugFile(const QString& content, int id = 0);//output file content to a log file with id+uuid
 	Ui::MainWindow ui;
@@ -51,7 +51,8 @@ private slots:
 	void channelAddedToModel(const RssChannel*ch) const ;
 	void titleSelected(const QModelIndex& index);
 	void channelSelected(const QModelIndex& index);
-        void showStatus(const QString& msg)const;
+	void forceRefreshChannel(const QModelIndex&index);
+		void showStatus(const QString& msg)const;
 signals:
 };
 

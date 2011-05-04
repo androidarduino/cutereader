@@ -31,23 +31,24 @@ public:
 
 public slots:
     void setUrl(const QUrl& url);
-    bool connectChannel(void);
+	bool connectChannel(bool force = true);
     RSSDocument* rssDocument(){return doc;};
 	const QByteArray getRawData();
     void setRawData(const QByteArray rawdata);//give me the rawcontent, I will parse it!
 signals:
     void doneDownload();
     void doneParse();
-    void networkError(const QString error);
+	void networkError(const QString& error);
+	void logMessage(const QString& msg);
 
 protected slots:
-    void download_finish();
-    void rawDataChanged();
-    //void parse_finish();
+	void downloadFinished(void);
+	void rawDataChanged(void);
+	bool loadSavedFeeds(void);
+	void cacheFeeds(void);
 
 private:
     const RSSDocument* createDocument(void);
-    void cacheFeeds(void);
     static RSSDocument* doc;//single instance shared among all channels
     static int docref; //reference count for the doc
     QByteArray rawData;

@@ -52,6 +52,7 @@ bool ChannelModel::initialize()
 		createDataDir(dataDir);
 
 	readChannelData();
+	return true;
 }
 
 void ChannelModel::readChannelData()
@@ -88,6 +89,7 @@ bool ChannelModel::createDataDir(const QDir& dir)
 	QString command = "mkdir -p " + dir.path();
 	qDebug()<<"Make dir:" << command;
 	system(command.toLocal8Bit().constData());
+	return false;
 }
 
 QModelIndex ChannelModel::index(int row, int column, const QModelIndex& parent ) const

@@ -68,10 +68,14 @@ RSSDocument::RSSDocument()
 
 }
 
-const QString RSSDocument::feedContentHint(int id /*= -1*/)
+const QString RSSDocument::feedContentHint(const QList<RSSFeed*> feedlist,int id /*= -1*/)
 {
-    QString titleinfo, content;
-    const QList<RSSFeed*> list = getFeedList();
+    QString titleinfo, content;	
+	QList<RSSFeed*> list;
+	if( feedlist.count() != 0) list = feedlist;
+	else
+		list = getFeedList();
+
     if( list.count() == 0)
         return content;
 
@@ -93,6 +97,7 @@ const QString RSSDocument::feedContentHint(int id /*= -1*/)
         rating = fd->getProperty(RSSFeed::Rating).toString();
         textinput = fd->getProperty(RSSFeed::TextInput).toString();
         webmaster = fd->getProperty(RSSFeed::WebMaster).toString();
+		/*
         qDebug() << "BJBJ:Title:" << title;
         qDebug() << "BJBJ:Description:" << description;
         qDebug() << "BJBJ:Copyright:" << copyright;
@@ -106,6 +111,7 @@ const QString RSSDocument::feedContentHint(int id /*= -1*/)
         qDebug() << "BJBJ:Rating:" << rating;
         qDebug() << "BJBJ:TextInput:" << textinput;
         qDebug() << "BJBJ:WebMaster:" << webmaster;
+		*/
 		titleinfo += "RSS from <a href=\"" + link + "\">" + title + "</a><br><p>" + description + "</p>";
 		titleinfo += "<p>-------------------------------------------</p>";
 
@@ -133,6 +139,7 @@ const QString RSSDocument::feedContentHint(int id /*= -1*/)
     		currentid ++;
 		if(currentid != id && id != -1)
 			continue;//skip this item
+		/*
             qDebug() << "BJBJ:title:" << it->title;
             qDebug() << "BJBJ:description:" << it->description;
             qDebug() << "BJBJ:author:" << it->author;
@@ -140,10 +147,11 @@ const QString RSSDocument::feedContentHint(int id /*= -1*/)
             qDebug() << "BJBJ:comments:" << it->comments;
             //qDebug() << "BJBJ:enclosure:" << it->enclosure;
             qDebug() << "BJBJ:link:" << it->link;
-            qDebug() << "BJBJ:guid:" << it->guid;
             qDebug() << "BJBJ:pubDate:" << it->pubDate;
             qDebug() << "BJBJ:source:" << it->source;
-            if( id == -1 && !it->link.toString().isEmpty())//index
+			*/
+		qDebug() << "BJBJ:guid:" << it->guid;
+			if( id == -1 && !it->link.toString().isEmpty())//index
 	    titleinfo += "<a href= \"" + it->link.toString() + "\">" + it->title+ "</a><br>";
 	    titlecontent = it->contentencoded.isEmpty()? it->source: it->contentencoded;
 	    if(titlecontent.isEmpty()) titlecontent = it->description;
