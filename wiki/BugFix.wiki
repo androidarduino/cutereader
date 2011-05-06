@@ -6,5 +6,5 @@ Memo for all bugs found
 
 = Details =
   * r20 bug in ChannelModel::index causes crash
-  * 
-  * 
+  * RSSDocument::setContent accepts QString, which calls the codec to convert the encoding. This causes chinese content display problem.
+  * tagName doesn't support tag format like "atom:link","content:encoded", should use "nodeName" instead
